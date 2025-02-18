@@ -89,4 +89,118 @@ require get_template_directory() . '/inc/template-tags.php';
 /**
  * Customizer additions
  */
-require get_template_directory() . '/inc/customizer.php'; 
+require get_template_directory() . '/inc/customizer.php';
+
+/**
+ * Admin Menü ve Tema Ayarları
+ */
+function dark_blue_admin_menu() {
+    add_menu_page(
+        'Dark Blue Tema', // Sayfa başlığı
+        'Dark Blue', // Menü başlığı
+        'manage_options', // Gerekli yetki
+        'dark-blue-settings', // Menü slug
+        'dark_blue_settings_page', // Callback fonksiyonu
+        'dashicons-admin-customizer', // İkon
+        60 // Pozisyon
+    );
+
+    add_submenu_page(
+        'dark-blue-settings', // Ana menü slug
+        'Tema Ayarları', // Sayfa başlığı
+        'Tema Ayarları', // Menü başlığı
+        'manage_options', // Gerekli yetki
+        'dark-blue-settings', // Menü slug (ana menü ile aynı)
+        'dark_blue_settings_page' // Callback fonksiyonu
+    );
+}
+add_action('admin_menu', 'dark_blue_admin_menu');
+
+/**
+ * Tema Ayarları Sayfası İçeriği
+ */
+function dark_blue_settings_page() {
+    // Ayarları kaydet
+    if (isset($_POST['dark_blue_save_settings'])) {
+        if (check_admin_referer('dark_blue_settings_nonce')) {
+            update_option('dark_blue_header_text', sanitize_text_field($_POST['header_text']));
+            update_option('dark_blue_footer_text', sanitize_text_field($_POST['footer_text']));
+            update_option('dark_blue_social_facebook', esc_url_raw($_POST['social_facebook']));
+            update_option('dark_blue_social_twitter', esc_url_raw($_POST['social_twitter']));
+            update_option('dark_blue_social_instagram', esc_url_raw($_POST['social_instagram']));
+            echo '<div class="notice notice-success"><p>Ayarlar başarıyla kaydedildi.</p></div>';
+        }
+    }
+
+    // Mevcut ayarları al
+    $header_text = get_option('dark_blue_header_text', '');
+    $footer_text = get_option('dark_blue_footer_text', '');
+    $social_facebook = get_option('dark_blue_social_facebook', '');
+    $social_twitter = get_option('dark_blue_social_twitter', '');
+    $social_instagram = get_option('dark_blue_social_instagram', '');
+    ?>
+    <div class="wrap">
+        <h1>Dark Blue Tema Ayarları</h1>
+        <form method="post" action="">
+            <?php wp_nonce_field('dark_blue_settings_nonce'); ?>
+            
+            <table class="form-table">
+                <tr>
+                    <th scope="row">
+                        <label for="header_text">Header Metni</label>
+                    </th>
+                    <td>
+                        <input type="text" id="header_text" name="header_text" 
+                               value="<?php echo esc_attr($header_text); ?>" class="regular-text">
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <label for="footer_text">Footer Metni</label>
+                    </th>
+                    <td>
+                        <input type="text" id="footer_text" name="footer_text" 
+                               value="<?php echo esc_attr($footer_text); ?>" class="regular-text">
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">Sosyal Medya Bağlantıları</th>
+                    <td>
+                        <p>
+                            <label for="social_facebook">Facebook:</label><br>
+                            <input type="url" id="social_facebook" name="social_facebook" 
+                                   value="<?php echo esc_url($social_facebook); ?>" class="regular-text">
+                        </p>
+                        <p>
+                            <label for="social_twitter">Twitter:</label><br>
+                            <input type="url" id="social_twitter" name="social_twitter" 
+                                   value="<?php echo esc_url($social_twitter); ?>" class="regular-text">
+                        </p>
+                        <p>
+                            <label for="social_instagram">Instagram:</label><br>
+                            <input type="url" id="social_instagram" name="social_instagram" 
+                                   value="<?php echo esc_url($social_instagram); ?>" class="regular-text">
+                        </p>
+                    </td>
+                </tr>
+            </table>
+            
+            <p class="submit">
+                <input type="submit" name="dark_blue_save_settings" class="button button-primary" 
+                       value="Ayarları Kaydet">
+            </p>
+        </form>
+    </div>
+    <?php
+}
+
+/**
+ * Admin Stil Dosyasını Ekle
+ */
+function dark_blue_admin_styles() {
+    $screen = get_current_screen();
+    if (strpos($screen->id, 'dark-blue') !== false) {
+        wp_enqueue_style('dark-blue-admin', get_template_directory_uri() . '/css/admin.css', array(), DARK_BLUE_VERSION);
+    }
+}
+add_action('admin_enqueue_scripts', 'dark_blue_admin_styles'); 
