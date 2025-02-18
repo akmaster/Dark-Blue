@@ -267,4 +267,151 @@ function dark_blue_save_headline($post_id) {
         );
     }
 }
-add_action('save_post', 'dark_blue_save_headline'); 
+add_action('save_post', 'dark_blue_save_headline');
+
+/**
+ * Son Dakika Ayarları
+ */
+function dark_blue_add_breaking_news_settings($wp_customize) {
+    // Son Dakika Bölümü Ayarları
+    $wp_customize->add_section('dark_blue_breaking_news_section', array(
+        'title'    => __('Son Dakika Ayarları', 'dark-blue'),
+        'priority' => 120,
+    ));
+
+    // Son Dakika Bölümünü Göster/Gizle
+    $wp_customize->add_setting('show_breaking_news', array(
+        'default'           => true,
+        'sanitize_callback' => 'dark_blue_sanitize_checkbox',
+    ));
+
+    $wp_customize->add_control('show_breaking_news', array(
+        'label'    => __('Son Dakika Bölümünü Göster', 'dark-blue'),
+        'section'  => 'dark_blue_breaking_news_section',
+        'type'     => 'checkbox',
+    ));
+
+    // Son Dakika Başlığı
+    $wp_customize->add_setting('breaking_news_title', array(
+        'default'           => 'SON DAKİKA',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+
+    $wp_customize->add_control('breaking_news_title', array(
+        'label'    => __('Son Dakika Başlığı', 'dark-blue'),
+        'section'  => 'dark_blue_breaking_news_section',
+        'type'     => 'text',
+    ));
+}
+add_action('customize_register', 'dark_blue_add_breaking_news_settings');
+
+// Checkbox sanitize fonksiyonu
+function dark_blue_sanitize_checkbox($checked) {
+    return ((isset($checked) && true == $checked) ? true : false);
+}
+
+/**
+ * Son Dakika Meta Box
+ */
+function dark_blue_add_breaking_news_meta_box() {
+    add_meta_box(
+        'dark_blue_breaking_news',
+        'Son Dakika Ayarları',
+        'dark_blue_breaking_news_callback',
+        'post',
+        'side',
+        'high'
+    );
+}
+add_action('add_meta_boxes', 'dark_blue_add_breaking_news_meta_box');
+
+/**
+ * Son Dakika Meta Box İçeriği
+ */
+function dark_blue_breaking_news_callback($post) {
+    wp_nonce_field('dark_blue_breaking_news_nonce', 'dark_blue_breaking_news_nonce');
+    $is_breaking_news = get_post_meta($post->ID, '_is_breaking_news', true);
+    $breaking_news_expiry = get_post_meta($post->ID, '_breaking_news_expiry', true);
+    ?>
+    <div class="breaking-news-meta-box">
+        <p>
+            <label>
+                <input type="checkbox" name="is_breaking_news" value="1" <?php checked($is_breaking_news, '1'); ?>>
+                Bu haber son dakika olarak gösterilsin
+            </label>
+        </p>
+        <p>
+            <label for="breaking_news_expiry">Son Dakika Bitiş Tarihi:</label><br>
+            <input type="datetime-local" id="breaking_news_expiry" name="breaking_news_expiry" 
+                   value="<?php echo esc_attr($breaking_news_expiry); ?>" style="width: 100%;">
+            <span class="description">Boş bırakılırsa süresiz gösterilir</span>
+        </p>
+    </div>
+    <?php
+}
+
+/**
+ * Son Dakika Meta Box Kaydetme
+ */
+function dark_blue_save_breaking_news_meta($post_id) {
+    if (!isset($_POST['dark_blue_breaking_news_nonce'])) {
+        return;
+    }
+
+    if (!wp_verify_nonce($_POST['dark_blue_breaking_news_nonce'], 'dark_blue_breaking_news_nonce')) {
+        return;
+    }
+
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+
+    if (!current_user_can('edit_post', $post_id)) {
+        return;
+    }
+
+    // Son dakika durumunu kaydet
+    $is_breaking_news = isset($_POST['is_breaking_news']) ? '1' : '0';
+    update_post_meta($post_id, '_is_breaking_news', $is_breaking_news);
+
+    // Bitiş tarihini kaydet
+    if (isset($_POST['breaking_news_expiry'])) {
+        update_post_meta($post_id, '_breaking_news_expiry', sanitize_text_field($_POST['breaking_news_expiry']));
+    }
+}
+add_action('save_post', 'dark_blue_save_breaking_news_meta');
+
+/**
+ * Son Dakika Haberlerini Getir
+ */
+function dark_blue_get_breaking_news() {
+    $args = array(
+        'post_type' => 'post',
+        'posts_per_page' => 5,
+        'meta_query' => array(
+            array(
+                'key' => '_is_breaking_news',
+                'value' => '1',
+                'compare' => '='
+            ),
+            array(
+                'relation' => 'OR',
+                array(
+                    'key' => '_breaking_news_expiry',
+                    'value' => '',
+                    'compare' => '='
+                ),
+                array(
+                    'key' => '_breaking_news_expiry',
+                    'value' => current_time('Y-m-d H:i:s'),
+                    'compare' => '>',
+                    'type' => 'DATETIME'
+                )
+            )
+        ),
+        'orderby' => 'date',
+        'order' => 'DESC'
+    );
+
+    return new WP_Query($args);
+} 

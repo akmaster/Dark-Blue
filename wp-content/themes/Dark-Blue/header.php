@@ -28,32 +28,29 @@
     </div>
 
     <!-- Breaking News -->
-    <div class="breaking-news">
-        <div class="breaking-news-container">
-            <div class="breaking-news-label">
-                <i class="fas fa-bolt"></i> SON DAKİKA
-            </div>
-            <div class="breaking-news-content">
-                <?php
-                $args = array(
-                    'post_type' => 'post',
-                    'posts_per_page' => 5,
-                    'meta_key' => 'breaking_news',
-                    'meta_value' => '1'
-                );
-                $breaking_news = new WP_Query($args);
-                if ($breaking_news->have_posts()) :
-                    while ($breaking_news->have_posts()) : $breaking_news->the_post();
-                        echo '<a href="' . get_permalink() . '">' . get_the_title() . '</a>';
-                    endwhile;
-                    wp_reset_postdata();
-                else :
-                    echo '<a href="#">Şu anda son dakika haberi bulunmuyor.</a>';
-                endif;
-                ?>
+    <?php if (get_theme_mod('show_breaking_news', true)) : 
+        $breaking_news = dark_blue_get_breaking_news();
+    ?>
+        <div class="breaking-news">
+            <div class="breaking-news-container">
+                <div class="breaking-news-label">
+                    <i class="fas fa-bolt"></i> <?php echo esc_html(get_theme_mod('breaking_news_title', 'SON DAKİKA')); ?>
+                </div>
+                <div class="breaking-news-content">
+                    <?php if ($breaking_news->have_posts()) : ?>
+                        <div class="breaking-news-slider">
+                            <?php while ($breaking_news->have_posts()) : $breaking_news->the_post(); ?>
+                                <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                            <?php endwhile; ?>
+                        </div>
+                    <?php else : ?>
+                        <a href="#">Şu anda son dakika haberi bulunmuyor.</a>
+                    <?php endif; 
+                    wp_reset_postdata(); ?>
+                </div>
             </div>
         </div>
-    </div>
+    <?php endif; ?>
 
     <header class="site-header">
         <div class="header-container">
