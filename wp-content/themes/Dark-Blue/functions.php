@@ -59,6 +59,9 @@ function dark_blue_scripts() {
     if (is_single()) {
         wp_enqueue_script('dark-blue-toc', get_template_directory_uri() . '/js/toc.js', array(), DARK_BLUE_VERSION, true);
     }
+
+    // Scripts
+    wp_enqueue_script('dark-blue-reading-progress', get_template_directory_uri() . '/js/reading-progress.js', array(), '1.0.0', true);
 }
 add_action('wp_enqueue_scripts', 'dark_blue_scripts');
 
