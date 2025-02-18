@@ -113,6 +113,16 @@ function dark_blue_admin_menu() {
         'dark-blue-settings', // Menü slug (ana menü ile aynı)
         'dark_blue_settings_page' // Callback fonksiyonu
     );
+
+    // Son Dakika Haberler alt menüsü
+    add_submenu_page(
+        'dark-blue-settings', // Ana menü slug
+        'Son Dakika Haberler', // Sayfa başlığı
+        'Son Dakika Haberler', // Menü başlığı
+        'manage_options', // Gerekli yetki
+        'dark-blue-breaking-news', // Menü slug
+        'dark_blue_breaking_news_page' // Callback fonksiyonu
+    );
 }
 add_action('admin_menu', 'dark_blue_admin_menu');
 
@@ -414,4 +424,135 @@ function dark_blue_get_breaking_news() {
     );
 
     return new WP_Query($args);
+}
+
+/**
+ * Son Dakika Haberler Sayfası İçeriği
+ */
+function dark_blue_breaking_news_page() {
+    // Haber durumunu güncelle
+    if (isset($_POST['update_breaking_news']) && isset($_POST['post_id'])) {
+        if (check_admin_referer('dark_blue_breaking_news_action', 'dark_blue_breaking_news_nonce')) {
+            $post_id = intval($_POST['post_id']);
+            $is_breaking = isset($_POST['is_breaking_news']) ? '1' : '0';
+            $expiry_date = sanitize_text_field($_POST['breaking_news_expiry']);
+            
+            update_post_meta($post_id, '_is_breaking_news', $is_breaking);
+            update_post_meta($post_id, '_breaking_news_expiry', $expiry_date);
+            
+            echo '<div class="notice notice-success"><p>Haber durumu güncellendi.</p></div>';
+        }
+    }
+
+    // Son dakika haberlerini getir
+    $args = array(
+        'post_type' => 'post',
+        'posts_per_page' => -1,
+        'meta_query' => array(
+            'relation' => 'OR',
+            array(
+                'key' => '_is_breaking_news',
+                'value' => '1',
+                'compare' => '='
+            )
+        )
+    );
+    
+    $breaking_news = new WP_Query($args);
+    ?>
+    <div class="wrap">
+        <h1>Son Dakika Haberler</h1>
+        <div class="tablenav top">
+            <div class="alignleft actions">
+                <a href="<?php echo admin_url('post-new.php'); ?>" class="button button-primary">Yeni Haber Ekle</a>
+            </div>
+        </div>
+        
+        <table class="wp-list-table widefat fixed striped">
+            <thead>
+                <tr>
+                    <th>Başlık</th>
+                    <th>Kategori</th>
+                    <th>Yayın Tarihi</th>
+                    <th>Son Dakika Durumu</th>
+                    <th>Bitiş Tarihi</th>
+                    <th>İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                if ($breaking_news->have_posts()) :
+                    while ($breaking_news->have_posts()) : $breaking_news->the_post();
+                        $post_id = get_the_ID();
+                        $is_breaking = get_post_meta($post_id, '_is_breaking_news', true);
+                        $expiry_date = get_post_meta($post_id, '_breaking_news_expiry', true);
+                        $categories = get_the_category();
+                        ?>
+                        <tr>
+                            <td>
+                                <strong><a href="<?php echo get_edit_post_link(); ?>"><?php the_title(); ?></a></strong>
+                            </td>
+                            <td>
+                                <?php
+                                if ($categories) {
+                                    $cat_names = array();
+                                    foreach ($categories as $category) {
+                                        $cat_names[] = $category->name;
+                                    }
+                                    echo implode(', ', $cat_names);
+                                }
+                                ?>
+                            </td>
+                            <td><?php echo get_the_date('j F Y, H:i'); ?></td>
+                            <td>
+                                <form method="post" style="display: inline;">
+                                    <?php wp_nonce_field('dark_blue_breaking_news_action', 'dark_blue_breaking_news_nonce'); ?>
+                                    <input type="hidden" name="post_id" value="<?php echo $post_id; ?>">
+                                    <label>
+                                        <input type="checkbox" name="is_breaking_news" value="1" <?php checked($is_breaking, '1'); ?>>
+                                        Son Dakika
+                                    </label>
+                            </td>
+                            <td>
+                                <input type="datetime-local" name="breaking_news_expiry" value="<?php echo esc_attr($expiry_date); ?>">
+                            </td>
+                            <td>
+                                    <input type="submit" name="update_breaking_news" class="button button-small" value="Güncelle">
+                                </form>
+                                <a href="<?php echo get_edit_post_link(); ?>" class="button button-small">Düzenle</a>
+                                <a href="<?php the_permalink(); ?>" class="button button-small" target="_blank">Görüntüle</a>
+                            </td>
+                        </tr>
+                        <?php
+                    endwhile;
+                    wp_reset_postdata();
+                else :
+                    ?>
+                    <tr>
+                        <td colspan="6">Son dakika haberi bulunmuyor.</td>
+                    </tr>
+                    <?php
+                endif;
+                ?>
+            </tbody>
+        </table>
+    </div>
+    <style>
+        .wp-list-table {
+            margin-top: 1rem;
+        }
+        .wp-list-table th {
+            font-weight: 600;
+        }
+        .wp-list-table td {
+            vertical-align: middle;
+        }
+        .button-small {
+            margin: 0 0.2rem;
+        }
+        input[type="datetime-local"] {
+            width: 200px;
+        }
+    </style>
+    <?php
 } 
