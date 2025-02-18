@@ -1,19 +1,32 @@
+/* Dark Blue Admin Styles - Genel */
+:root {
+    --dark-primary: #1A2B3C;
+    --dark-secondary: #2C4356;
+    --dark-tertiary: #3A4B5C;
+    --accent-gold: #D4AF37;
+    --accent-red: #C41E3A;
+    --text-light: #ffffff;
+    --text-muted: rgba(255, 255, 255, 0.7);
+    --border-color: rgba(255, 255, 255, 0.1);
+}
+
 /* Dark Blue Admin Styles */
 .toplevel_page_dark-blue-settings .wrap {
     max-width: 1000px;
     margin: 20px auto;
-    background: #fff;
+    background: #1A2B3C;
     padding: 25px;
     border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    color: #fff;
 }
 
 .toplevel_page_dark-blue-settings h1 {
-    color: #1A2B3C;
+    color: #fff;
     font-size: 24px;
     margin-bottom: 30px;
     padding-bottom: 15px;
-    border-bottom: 2px solid #C41E3A;
+    border-bottom: 2px solid #D4AF37;
 }
 
 .toplevel_page_dark-blue-settings .form-table {
@@ -23,12 +36,13 @@
 .toplevel_page_dark-blue-settings .form-table th {
     width: 200px;
     padding: 20px 10px 20px 0;
-    color: #2C4356;
+    color: #D4AF37;
     font-weight: 600;
 }
 
 .toplevel_page_dark-blue-settings .form-table td {
     padding: 15px 10px;
+    color: #fff;
 }
 
 .toplevel_page_dark-blue-settings input[type="text"],
@@ -36,15 +50,17 @@
     width: 100%;
     max-width: 400px;
     padding: 8px 12px;
-    border: 1px solid #ddd;
+    border: 1px solid #3A4B5C;
     border-radius: 4px;
+    background: #2C4356;
+    color: #fff;
     transition: all 0.3s ease;
 }
 
 .toplevel_page_dark-blue-settings input[type="text"]:focus,
 .toplevel_page_dark-blue-settings input[type="url"]:focus {
-    border-color: #C41E3A;
-    box-shadow: 0 0 0 1px #C41E3A;
+    border-color: #D4AF37;
+    box-shadow: 0 0 0 1px #D4AF37;
     outline: none;
 }
 
@@ -101,18 +117,19 @@
 .dark-blue_page_dark-blue-breaking-news .wrap {
     max-width: 1200px;
     margin: 20px auto;
-    background: #fff;
+    background: #1A2B3C;
     padding: 25px;
     border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    color: #fff;
 }
 
 .dark-blue_page_dark-blue-breaking-news h1 {
-    color: #1A2B3C;
+    color: #fff;
     font-size: 24px;
     margin-bottom: 30px;
     padding-bottom: 15px;
-    border-bottom: 2px solid #C41E3A;
+    border-bottom: 2px solid #D4AF37;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -121,7 +138,7 @@
 .dark-blue_page_dark-blue-breaking-news h1::before {
     content: '\f534';
     font-family: dashicons;
-    color: #C41E3A;
+    color: #D4AF37;
     font-size: 28px;
 }
 
@@ -168,13 +185,16 @@
 
 .dark-blue_page_dark-blue-breaking-news input[type="datetime-local"] {
     padding: 5px 10px;
-    border: 1px solid #ddd;
+    border: 1px solid #3A4B5C;
     border-radius: 4px;
     width: 200px;
+    background: #2C4356;
+    color: #fff;
 }
 
 .dark-blue_page_dark-blue-breaking-news input[type="checkbox"] {
     margin-right: 5px;
+    accent-color: #D4AF37;
 }
 
 .dark-blue_page_dark-blue-breaking-news .notice {
@@ -187,7 +207,7 @@
     height: 50px;
     border-radius: 4px;
     overflow: hidden;
-    background: #f0f0f0;
+    background: #2C4356;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -207,11 +227,11 @@
 }
 
 .dark-blue_page_dark-blue-breaking-news .breaking-news-thumbnail.no-image {
-    background: linear-gradient(135deg, #f0f0f0, #e0e0e0);
+    background: linear-gradient(135deg, #2C4356, #1A2B3C);
 }
 
 .dark-blue_page_dark-blue-breaking-news .breaking-news-thumbnail .dashicons {
-    color: #999;
+    color: #D4AF37;
     font-size: 24px;
     width: 24px;
     height: 24px;
@@ -358,4 +378,692 @@
         padding: 12px 16px;
         margin: 0 4px;
     }
+}
+
+/* Dark Blue İç Sayfa Stilleri */
+.dark-blue-admin-page {
+    max-width: 1200px;
+    margin: 20px auto;
+    background: #1A2B3C;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2);
+    color: #fff;
+}
+
+.dark-blue-admin-page h1 {
+    color: #fff;
+    font-size: 28px;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 3px solid #C41E3A;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.dark-blue-admin-page h1 .dashicons {
+    color: #C41E3A;
+    font-size: 32px;
+    width: 32px;
+    height: 32px;
+}
+
+/* Sekme Stilleri */
+.dark-blue-admin-page .nav-tab-wrapper {
+    background: transparent;
+    border-bottom: 3px solid #D4AF37;
+    padding: 0;
+    margin-bottom: 30px;
+    display: flex;
+    gap: 5px;
+}
+
+.dark-blue-admin-page .nav-tab {
+    background: #2C4356;
+    border: none;
+    padding: 15px 25px;
+    color: #fff;
+    font-weight: 600;
+    margin: 0;
+    border-radius: 8px 8px 0 0;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.dark-blue-admin-page .nav-tab::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 3px;
+    background: #D4AF37;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.dark-blue-admin-page .nav-tab:hover {
+    background: #3A4B5C;
+    color: #D4AF37;
+}
+
+.dark-blue-admin-page .nav-tab:hover::before {
+    transform: scaleX(1);
+}
+
+.dark-blue-admin-page .nav-tab-active,
+.dark-blue-admin-page .nav-tab-active:hover {
+    background: #D4AF37;
+    color: #1A2B3C;
+}
+
+.dark-blue-admin-page .nav-tab-active::before {
+    transform: scaleX(1);
+}
+
+/* Kartlar */
+.dark-blue-admin-page .card {
+    background: #2C4356;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+    padding: 25px;
+    margin: 25px 0;
+    border-top: 4px solid #D4AF37;
+    transition: all 0.3s ease;
+}
+
+.dark-blue-admin-page .card:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    transform: translateY(-2px);
+}
+
+.dark-blue-admin-page .card h2 {
+    color: #D4AF37;
+    font-size: 20px;
+    margin: 0 0 20px 0;
+    padding-bottom: 15px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Form Elemanları */
+.dark-blue-admin-page .form-table {
+    margin-top: 0;
+}
+
+.dark-blue-admin-page .form-table th {
+    padding: 20px 20px 20px 0;
+    color: #D4AF37;
+    font-weight: 600;
+    width: 200px;
+    vertical-align: top;
+}
+
+.dark-blue-admin-page .form-table td {
+    padding: 15px 0;
+    color: #fff;
+}
+
+.dark-blue-admin-page input[type="text"],
+.dark-blue-admin-page input[type="url"],
+.dark-blue-admin-page input[type="email"],
+.dark-blue-admin-page textarea,
+.dark-blue-admin-page select {
+    background: #1A2B3C;
+    border: 2px solid #3A4B5C;
+    color: #fff;
+    border-radius: 8px;
+    padding: 12px 15px;
+}
+
+.dark-blue-admin-page input[type="text"]:focus,
+.dark-blue-admin-page input[type="url"]:focus,
+.dark-blue-admin-page input[type="email"]:focus,
+.dark-blue-admin-page textarea:focus,
+.dark-blue-admin-page select:focus {
+    border-color: #D4AF37;
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+    outline: none;
+}
+
+.dark-blue-admin-page input[type="text"]::placeholder,
+.dark-blue-admin-page input[type="url"]::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.dark-blue-admin-page label {
+    display: inline-block;
+    margin-bottom: 8px;
+    color: #D4AF37;
+    font-weight: 500;
+}
+
+/* Butonlar */
+.dark-blue-admin-page .submit {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.dark-blue-admin-page .button {
+    padding: 12px 25px;
+    height: auto;
+    line-height: 1.4;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.dark-blue-admin-page .button-primary {
+    background: #D4AF37;
+    border-color: #D4AF37;
+    color: #1A2B3C;
+}
+
+.dark-blue-admin-page .button-primary:hover {
+    background: #C41E3A;
+    border-color: #C41E3A;
+    color: #fff;
+}
+
+.dark-blue-admin-page .button-secondary {
+    background: #2C4356;
+    border-color: #3A4B5C;
+    color: #fff;
+    margin-left: 10px;
+}
+
+.dark-blue-admin-page .button-secondary:hover {
+    background: #3A4B5C;
+    border-color: #D4AF37;
+    color: #D4AF37;
+}
+
+/* Sosyal Medya Alanları */
+.dark-blue-admin-page .social-media-fields p {
+    margin-bottom: 20px;
+}
+
+.dark-blue-admin-page .social-media-fields input {
+    margin-top: 8px;
+}
+
+/* Responsive Tasarım */
+@media screen and (max-width: 782px) {
+    .dark-blue-admin-page {
+        margin: 15px;
+        padding: 20px;
+    }
+
+    .dark-blue-admin-page .form-table th {
+        padding: 20px 0 10px;
+        display: block;
+    }
+
+    .dark-blue-admin-page .form-table td {
+        padding: 0 0 20px;
+    }
+
+    .dark-blue-admin-page input[type="text"],
+    .dark-blue-admin-page input[type="url"],
+    .dark-blue-admin-page input[type="email"],
+    .dark-blue-admin-page textarea,
+    .dark-blue-admin-page select {
+        max-width: 100%;
+    }
+
+    .dark-blue-admin-page .nav-tab {
+        padding: 12px 15px;
+        font-size: 13px;
+    }
+
+    .dark-blue-admin-page .button {
+        width: 100%;
+        margin: 10px 0;
+        text-align: center;
+    }
+}
+
+/* Animasyonlar */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dark-blue-admin-page .card {
+    animation: fadeIn 0.5s ease forwards;
+}
+
+.dark-blue-admin-page .card:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.dark-blue-admin-page .card:nth-child(3) {
+    animation-delay: 0.2s;
+}
+
+/* Bildirimler */
+.dark-blue-admin-page .notice {
+    background: #2C4356;
+    color: #fff;
+    border-radius: 8px;
+    border-left: 4px solid #D4AF37;
+    margin: 20px 0;
+    padding: 12px 15px;
+}
+
+.dark-blue-admin-page .notice-success {
+    background: rgba(0, 163, 42, 0.2);
+    border-left-color: #00a32a;
+}
+
+.dark-blue-admin-page .notice-error {
+    background: rgba(196, 30, 58, 0.2);
+    border-left-color: #C41E3A;
+}
+
+/* Tablolar */
+.dark-blue-admin-page .wp-list-table {
+    background: #2C4356;
+    border: none;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.dark-blue-admin-page .wp-list-table th {
+    background: #1A2B3C;
+    color: #fff;
+    border-bottom: 2px solid #D4AF37;
+    padding: 12px 15px;
+}
+
+.dark-blue-admin-page .wp-list-table td {
+    color: #fff;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 12px 15px;
+    vertical-align: middle;
+}
+
+.dark-blue-admin-page .wp-list-table tr:hover {
+    background: #3A4B5C;
+}
+
+.dark-blue-admin-page .wp-list-table .alternate {
+    background: #fcfcfc;
+}
+
+/* Responsive Tasarım */
+@media screen and (max-width: 782px) {
+    .dark-blue-admin-page {
+        margin: 10px;
+        padding: 15px;
+    }
+
+    .dark-blue-admin-page .form-table th {
+        padding: 15px;
+        width: 100%;
+        display: block;
+    }
+
+    .dark-blue-admin-page .form-table td {
+        padding: 10px 15px;
+    }
+
+    .dark-blue-admin-page input[type="text"],
+    .dark-blue-admin-page input[type="url"],
+    .dark-blue-admin-page input[type="email"],
+    .dark-blue-admin-page textarea,
+    .dark-blue-admin-page select {
+        max-width: 100%;
+    }
+
+    .dark-blue-admin-page .nav-tab {
+        padding: 8px 12px;
+        margin-bottom: 5px;
+    }
+}
+
+/* Sayfa Arka Planı */
+body.toplevel_page_dark-blue-settings,
+body.dark-blue_page_dark-blue-breaking-news {
+    background: #0F1A24;
+}
+
+/* Genel Tema Ayarları */
+#wpcontent, #wpbody-content {
+    background: #0F1A24;
+    color: #fff;
+}
+
+#wpbody-content > .wrap {
+    background: #1A2B3C;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.wp-core-ui .button {
+    background: #2C4356;
+    border-color: #3A4B5C;
+    color: #fff;
+}
+
+.wp-core-ui .button-primary {
+    background: #D4AF37;
+    border-color: #D4AF37;
+    color: #1A2B3C;
+}
+
+.wp-core-ui .button-primary:hover {
+    background: #C41E3A;
+    border-color: #C41E3A;
+    color: #fff;
+}
+
+.wp-core-ui .button:hover {
+    background: #3A4B5C;
+    border-color: #D4AF37;
+    color: #D4AF37;
+}
+
+/* Modern Form Elemanları */
+input[type="text"],
+input[type="password"],
+input[type="color"],
+input[type="date"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="email"],
+input[type="month"],
+input[type="number"],
+input[type="search"],
+input[type="tel"],
+input[type="time"],
+input[type="url"],
+input[type="week"],
+select,
+textarea {
+    background: linear-gradient(145deg, #1A2B3C, #2C4356) !important;
+    border: 2px solid rgba(58, 75, 92, 0.5) !important;
+    color: #fff !important;
+    border-radius: 12px !important;
+    padding: 12px 16px !important;
+    font-size: 14px !important;
+    transition: all 0.3s ease !important;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+}
+
+input[type="text"]:hover,
+input[type="password"]:hover,
+input[type="color"]:hover,
+input[type="date"]:hover,
+input[type="datetime"]:hover,
+input[type="datetime-local"]:hover,
+input[type="email"]:hover,
+input[type="month"]:hover,
+input[type="number"]:hover,
+input[type="search"]:hover,
+input[type="tel"]:hover,
+input[type="time"]:hover,
+input[type="url"]:hover,
+input[type="week"]:hover,
+select:hover,
+textarea:hover {
+    border-color: rgba(212, 175, 55, 0.3) !important;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1), 0 0 10px rgba(212, 175, 55, 0.1) !important;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="color"]:focus,
+input[type="date"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="email"]:focus,
+input[type="month"]:focus,
+input[type="number"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="time"]:focus,
+input[type="url"]:focus,
+input[type="week"]:focus,
+select:focus,
+textarea:focus {
+    background: linear-gradient(145deg, #243242, #2C4356) !important;
+    border-color: #D4AF37 !important;
+    box-shadow: 0 0 0 1px rgba(212, 175, 55, 0.2), 0 0 15px rgba(212, 175, 55, 0.15) !important;
+    outline: none !important;
+    transform: translateY(-1px);
+}
+
+input::placeholder {
+    color: rgba(255, 255, 255, 0.4) !important;
+    font-size: 13px !important;
+}
+
+/* Select Elementi için Özel Stiller */
+select {
+    appearance: none !important;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%23D4AF37" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>') !important;
+    background-repeat: no-repeat !important;
+    background-position: right 10px center !important;
+    padding-right: 40px !important;
+}
+
+/* Checkbox ve Radio Butonlar */
+input[type="checkbox"],
+input[type="radio"] {
+    position: relative !important;
+    width: 18px !important;
+    height: 18px !important;
+    border: 2px solid #3A4B5C !important;
+    background: linear-gradient(145deg, #1A2B3C, #2C4356) !important;
+    border-radius: 4px !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    vertical-align: middle !important;
+}
+
+input[type="radio"] {
+    border-radius: 50% !important;
+}
+
+input[type="checkbox"]:checked,
+input[type="radio"]:checked {
+    background: #D4AF37 !important;
+    border-color: #D4AF37 !important;
+}
+
+input[type="checkbox"]:checked::before {
+    content: '✓' !important;
+    position: absolute !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    font-size: 12px !important;
+    color: #1A2B3C !important;
+}
+
+input[type="radio"]:checked::before {
+    content: '' !important;
+    position: absolute !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 8px !important;
+    height: 8px !important;
+    border-radius: 50% !important;
+    background: #1A2B3C !important;
+}
+
+/* Form Label Stilleri */
+.form-table label {
+    color: #D4AF37 !important;
+    font-weight: 500 !important;
+    font-size: 14px !important;
+    margin-bottom: 8px !important;
+    display: inline-block !important;
+}
+
+/* Textarea Özel Stilleri */
+textarea {
+    min-height: 120px !important;
+    resize: vertical !important;
+    line-height: 1.6 !important;
+}
+
+/* Input Group Stilleri */
+.input-group {
+    position: relative !important;
+    margin-bottom: 20px !important;
+}
+
+.input-group label {
+    position: absolute !important;
+    left: 16px !important;
+    top: -10px !important;
+    background: #1A2B3C !important;
+    padding: 0 8px !important;
+    font-size: 12px !important;
+    color: #D4AF37 !important;
+    z-index: 1 !important;
+}
+
+/* Disabled Durumu */
+input:disabled,
+select:disabled,
+textarea:disabled {
+    opacity: 0.6 !important;
+    cursor: not-allowed !important;
+    background: linear-gradient(145deg, #1A2B3C, #243242) !important;
+}
+
+/* Hata Durumu */
+input.error,
+select.error,
+textarea.error {
+    border-color: #C41E3A !important;
+    background: linear-gradient(145deg, #1A2B3C, #2C4356), rgba(196, 30, 58, 0.05) !important;
+}
+
+.error-message {
+    color: #C41E3A !important;
+    font-size: 12px !important;
+    margin-top: 4px !important;
+    display: block !important;
+}
+
+/* Başarı Durumu */
+input.success,
+select.success,
+textarea.success {
+    border-color: #00a32a !important;
+    background: linear-gradient(145deg, #1A2B3C, #2C4356), rgba(0, 163, 42, 0.05) !important;
+}
+
+.success-message {
+    color: #00a32a !important;
+    font-size: 12px !important;
+    margin-top: 4px !important;
+    display: block !important;
+}
+
+/* Tablo Stilleri */
+.wp-list-table {
+    background: #2C4356 !important;
+    border: none !important;
+}
+
+.wp-list-table th {
+    background: #1A2B3C !important;
+    color: #fff !important;
+}
+
+.wp-list-table td {
+    color: #fff !important;
+    background: #2C4356 !important;
+}
+
+.wp-list-table tr:hover td {
+    background: #3A4B5C !important;
+}
+
+.alternate, .striped > tbody > :nth-child(odd) {
+    background: #243242 !important;
+}
+
+/* Bildirimler */
+.notice {
+    background: #2C4356 !important;
+    color: #fff !important;
+    border-left: 4px solid #D4AF37 !important;
+}
+
+.notice-success {
+    background: rgba(0, 163, 42, 0.2) !important;
+    border-left-color: #00a32a !important;
+}
+
+.notice-error {
+    background: rgba(196, 30, 58, 0.2) !important;
+    border-left-color: #C41E3A !important;
+}
+
+/* Sekmeler */
+.nav-tab-wrapper {
+    border-bottom-color: #D4AF37 !important;
+}
+
+.nav-tab {
+    background: #2C4356 !important;
+    color: #fff !important;
+    border: none !important;
+}
+
+.nav-tab:hover,
+.nav-tab-active {
+    background: #3A4B5C !important;
+    color: #D4AF37 !important;
+}
+
+/* Metabox Stilleri */
+.postbox {
+    background: #2C4356 !important;
+    border: none !important;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1) !important;
+}
+
+.postbox .hndle {
+    border-bottom: 2px solid #D4AF37 !important;
+    color: #fff !important;
+}
+
+.postbox .inside {
+    color: #fff !important;
+}
+
+/* WordPress Admin Bar */
+#wpadminbar {
+    background: #1A2B3C !important;
+}
+
+#wpadminbar .ab-item {
+    color: #fff !important;
+}
+
+#wpadminbar .ab-sub-wrapper {
+    background: #2C4356 !important;
+}
+
+#wpadminbar .ab-sub-wrapper .ab-item:hover {
+    background: #3A4B5C !important;
+    color: #D4AF37 !important;
 } 

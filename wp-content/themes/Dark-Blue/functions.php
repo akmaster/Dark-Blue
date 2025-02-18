@@ -149,55 +149,72 @@ function dark_blue_settings_page() {
     $social_twitter = get_option('dark_blue_social_twitter', '');
     $social_instagram = get_option('dark_blue_social_instagram', '');
     ?>
-    <div class="wrap">
-        <h1>Dark Blue Tema Ayarları</h1>
+    <div class="wrap dark-blue-admin-page">
+        <h1><i class="dashicons dashicons-admin-customizer"></i> Dark Blue Tema Ayarları</h1>
+        
+        <div class="nav-tab-wrapper">
+            <a href="#general" class="nav-tab nav-tab-active">Genel Ayarlar</a>
+            <a href="#social" class="nav-tab">Sosyal Medya</a>
+            <a href="#advanced" class="nav-tab">Gelişmiş Ayarlar</a>
+        </div>
+
         <form method="post" action="">
             <?php wp_nonce_field('dark_blue_settings_nonce'); ?>
             
-            <table class="form-table">
-                <tr>
-                    <th scope="row">
-                        <label for="header_text">Header Metni</label>
-                    </th>
-                    <td>
-                        <input type="text" id="header_text" name="header_text" 
-                               value="<?php echo esc_attr($header_text); ?>" class="regular-text">
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">
-                        <label for="footer_text">Footer Metni</label>
-                    </th>
-                    <td>
-                        <input type="text" id="footer_text" name="footer_text" 
-                               value="<?php echo esc_attr($footer_text); ?>" class="regular-text">
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">Sosyal Medya Bağlantıları</th>
-                    <td>
-                        <p>
-                            <label for="social_facebook">Facebook:</label><br>
-                            <input type="url" id="social_facebook" name="social_facebook" 
-                                   value="<?php echo esc_url($social_facebook); ?>" class="regular-text">
-                        </p>
-                        <p>
-                            <label for="social_twitter">Twitter:</label><br>
-                            <input type="url" id="social_twitter" name="social_twitter" 
-                                   value="<?php echo esc_url($social_twitter); ?>" class="regular-text">
-                        </p>
-                        <p>
-                            <label for="social_instagram">Instagram:</label><br>
-                            <input type="url" id="social_instagram" name="social_instagram" 
-                                   value="<?php echo esc_url($social_instagram); ?>" class="regular-text">
-                        </p>
-                    </td>
-                </tr>
-            </table>
+            <div class="card">
+                <h2>Genel Ayarlar</h2>
+                <table class="form-table">
+                    <tr>
+                        <th scope="row">
+                            <label for="header_text">Header Metni</label>
+                        </th>
+                        <td>
+                            <input type="text" id="header_text" name="header_text" 
+                                   value="<?php echo esc_attr($header_text); ?>" class="regular-text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">
+                            <label for="footer_text">Footer Metni</label>
+                        </th>
+                        <td>
+                            <input type="text" id="footer_text" name="footer_text" 
+                                   value="<?php echo esc_attr($footer_text); ?>" class="regular-text">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="card">
+                <h2>Sosyal Medya Bağlantıları</h2>
+                <table class="form-table">
+                    <tr>
+                        <th scope="row">Sosyal Medya</th>
+                        <td>
+                            <p>
+                                <label for="social_facebook">Facebook:</label><br>
+                                <input type="url" id="social_facebook" name="social_facebook" 
+                                       value="<?php echo esc_url($social_facebook); ?>" class="regular-text">
+                            </p>
+                            <p>
+                                <label for="social_twitter">Twitter:</label><br>
+                                <input type="url" id="social_twitter" name="social_twitter" 
+                                       value="<?php echo esc_url($social_twitter); ?>" class="regular-text">
+                            </p>
+                            <p>
+                                <label for="social_instagram">Instagram:</label><br>
+                                <input type="url" id="social_instagram" name="social_instagram" 
+                                       value="<?php echo esc_url($social_instagram); ?>" class="regular-text">
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
             
             <p class="submit">
                 <input type="submit" name="dark_blue_save_settings" class="button button-primary" 
                        value="Ayarları Kaydet">
+                <a href="#" class="button button-secondary">Varsayılan Ayarlar</a>
             </p>
         </form>
     </div>
@@ -460,8 +477,8 @@ function dark_blue_breaking_news_page() {
     
     $breaking_news = new WP_Query($args);
     ?>
-    <div class="wrap">
-        <h1>Son Dakika Haberler</h1>
+    <div class="wrap dark-blue-admin-page">
+        <h1><i class="dashicons dashicons-megaphone"></i> Son Dakika Haberler</h1>
         <div class="tablenav top">
             <div class="alignleft actions">
                 <a href="<?php echo admin_url('post-new.php'); ?>" class="button button-primary">Yeni Haber Ekle</a>
