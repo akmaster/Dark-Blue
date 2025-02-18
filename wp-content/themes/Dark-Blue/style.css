@@ -619,22 +619,101 @@ body {
     }
 }
 
-/* Makale Başlığı ve Meta Bilgileri */
+/* Makale Başlığı ve Manşet */
 .article-title {
-    font-size: 2.5rem;
-    line-height: 1.3;
-    margin: 1rem 0 1.5rem;
+    font-size: 3.2rem;
+    line-height: 1.2;
+    margin: 1.2rem 0 1.8rem;
     color: var(--text-light);
-    font-weight: 700;
+    font-weight: 800;
     letter-spacing: -0.5px;
+}
+
+.article-headline h2 {
+    font-size: 2.4rem;
+    line-height: 1.4;
+    color: var(--accent-gold);
+    margin: 0;
+    padding: 0;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+}
+
+.article-headline {
+    margin: -1rem 0 2.5rem;
+    padding: 1.8rem;
+    background: linear-gradient(135deg, 
+        rgba(26, 43, 60, 0.95),
+        rgba(44, 67, 86, 0.95)
+    );
+    border-radius: 12px;
+    border-left: 4px solid var(--primary-red);
+    position: relative;
+}
+
+.article-headline::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -4px;
+    width: 4px;
+    height: 50px;
+    background: var(--accent-gold);
+}
+
+@media (max-width: 768px) {
+    .article-title {
+        font-size: 2.4rem;
+        line-height: 1.3;
+        margin: 1rem 0 1.5rem;
+    }
+    
+    .article-headline {
+        padding: 1.5rem;
+        margin: -0.5rem 0 2rem;
+    }
+
+    .article-headline h2 {
+        font-size: 1.8rem;
+        line-height: 1.35;
+    }
+}
+
+@media (max-width: 480px) {
+    .article-title {
+        font-size: 2rem;
+        line-height: 1.25;
+        margin: 0.8rem 0 1.2rem;
+    }
+
+    .article-headline h2 {
+        font-size: 1.6rem;
+        line-height: 1.3;
+    }
 }
 
 /* İçerik Alanı */
 .article-content {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     line-height: 1.8;
     color: var(--text-light);
     margin: 2rem 0;
+}
+
+.article-content p {
+    margin-bottom: 1.5rem;
+}
+
+.article-content h2 {
+    font-size: 2.2rem;
+    margin: 2.5rem 0 1.5rem;
+    font-weight: 700;
+}
+
+.article-content h3 {
+    font-size: 1.8rem;
+    margin: 2rem 0 1.2rem;
+    font-weight: 600;
 }
 
 /* Paylaşım Butonları */
@@ -1786,4 +1865,33 @@ html {
         border-radius: 6px;
         max-width: 100%;
     }
+}
+
+/* Admin Panel Manşet Alanı Stilleri */
+.dark-blue-headline-wrapper {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 10px 0;
+}
+
+.dark-blue-headline-wrapper label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: #1A2B3C;
+}
+
+.dark-blue-headline-wrapper textarea {
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 4px;
+    resize: vertical;
+    min-height: 100px;
+}
+
+.dark-blue-headline-wrapper .description {
+    color: #666;
+    font-style: italic;
+    margin-top: 8px;
 }

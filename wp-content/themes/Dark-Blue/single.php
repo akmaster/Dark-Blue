@@ -74,6 +74,13 @@ get_header(); ?>
                 <!-- Başlık -->
                 <header class="article-header">
                     <h1 class="article-title"><?php the_title(); ?></h1>
+                    <?php
+                    $headline = get_post_meta(get_the_ID(), '_dark_blue_headline', true);
+                    if (!empty($headline)) : ?>
+                        <div class="article-headline">
+                            <h2><?php echo wp_kses_post($headline); ?></h2>
+                        </div>
+                    <?php endif; ?>
                 </header>
 
                 <!-- Öne Çıkan Görsel -->

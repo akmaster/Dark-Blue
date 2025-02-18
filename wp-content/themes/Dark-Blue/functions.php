@@ -203,4 +203,68 @@ function dark_blue_admin_styles() {
         wp_enqueue_style('dark-blue-admin', get_template_directory_uri() . '/css/admin.css', array(), DARK_BLUE_VERSION);
     }
 }
-add_action('admin_enqueue_scripts', 'dark_blue_admin_styles'); 
+add_action('admin_enqueue_scripts', 'dark_blue_admin_styles');
+
+/**
+ * Manşet Alanı Ekleme
+ */
+function dark_blue_add_custom_fields() {
+    add_meta_box(
+        'dark_blue_headline', // Meta box ID
+        'Manşet', // Meta box Başlığı
+        'dark_blue_headline_callback', // Callback fonksiyonu
+        'post', // Post type
+        'normal', // Context
+        'high' // Priority
+    );
+}
+add_action('add_meta_boxes', 'dark_blue_add_custom_fields');
+
+/**
+ * Manşet Alanı Callback Fonksiyonu
+ */
+function dark_blue_headline_callback($post) {
+    wp_nonce_field('dark_blue_headline_nonce', 'dark_blue_headline_nonce');
+    $headline = get_post_meta($post->ID, '_dark_blue_headline', true);
+    ?>
+    <div class="dark-blue-headline-wrapper">
+        <p>
+            <label for="dark_blue_headline">Manşet Metni:</label>
+            <textarea id="dark_blue_headline" name="dark_blue_headline" rows="3" style="width: 100%;"><?php echo esc_textarea($headline); ?></textarea>
+        </p>
+        <p class="description">
+            Haberin manşet metnini buraya yazın. Bu metin başlığın altında daha büyük puntolarla gösterilecektir.
+        </p>
+    </div>
+    <?php
+}
+
+/**
+ * Manşet Alanını Kaydetme
+ */
+function dark_blue_save_headline($post_id) {
+    if (!isset($_POST['dark_blue_headline_nonce'])) {
+        return;
+    }
+
+    if (!wp_verify_nonce($_POST['dark_blue_headline_nonce'], 'dark_blue_headline_nonce')) {
+        return;
+    }
+
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+
+    if (!current_user_can('edit_post', $post_id)) {
+        return;
+    }
+
+    if (isset($_POST['dark_blue_headline'])) {
+        update_post_meta(
+            $post_id,
+            '_dark_blue_headline',
+            sanitize_textarea_field($_POST['dark_blue_headline'])
+        );
+    }
+}
+add_action('save_post', 'dark_blue_save_headline'); 
