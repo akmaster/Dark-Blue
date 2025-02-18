@@ -40,7 +40,14 @@
                     <?php if ($breaking_news->have_posts()) : ?>
                         <div class="breaking-news-slider">
                             <?php while ($breaking_news->have_posts()) : $breaking_news->the_post(); ?>
-                                <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                                <div class="breaking-news-item">
+                                    <?php if (has_post_thumbnail()) : ?>
+                                        <div class="breaking-news-thumbnail">
+                                            <?php the_post_thumbnail('thumbnail'); ?>
+                                        </div>
+                                    <?php endif; ?>
+                                    <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                                </div>
                             <?php endwhile; ?>
                         </div>
                     <?php else : ?>

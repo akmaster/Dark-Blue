@@ -1962,3 +1962,53 @@ html {
     font-style: italic;
     margin-top: 8px;
 }
+
+.breaking-news-item {
+    display: flex;
+    align-items: center;
+    margin-right: 30px;
+    white-space: nowrap;
+}
+
+.breaking-news-thumbnail {
+    width: 30px;
+    height: 30px;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+
+.breaking-news-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.breaking-news a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.breaking-news a:hover {
+    color: #C41E3A;
+}
+
+@keyframes slide {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+/* Responsive Tasarım */
+@media screen and (max-width: 768px) {
+    .breaking-news-thumbnail {
+        width: 25px;
+        height: 25px;
+        margin-right: 8px;
+    }
+}
