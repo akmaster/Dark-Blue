@@ -471,6 +471,7 @@ function dark_blue_breaking_news_page() {
         <table class="wp-list-table widefat fixed striped">
             <thead>
                 <tr>
+                    <th style="width: 60px;">Görsel</th>
                     <th>Başlık</th>
                     <th>Kategori</th>
                     <th>Yayın Tarihi</th>
@@ -489,6 +490,17 @@ function dark_blue_breaking_news_page() {
                         $categories = get_the_category();
                         ?>
                         <tr>
+                            <td>
+                                <?php if (has_post_thumbnail()) : ?>
+                                    <div class="breaking-news-thumbnail">
+                                        <?php echo get_the_post_thumbnail($post_id, array(50, 50)); ?>
+                                    </div>
+                                <?php else : ?>
+                                    <div class="breaking-news-thumbnail no-image">
+                                        <i class="dashicons dashicons-format-image"></i>
+                                    </div>
+                                <?php endif; ?>
+                            </td>
                             <td>
                                 <strong><a href="<?php echo get_edit_post_link(); ?>"><?php the_title(); ?></a></strong>
                             </td>
@@ -529,7 +541,7 @@ function dark_blue_breaking_news_page() {
                 else :
                     ?>
                     <tr>
-                        <td colspan="6">Son dakika haberi bulunmuyor.</td>
+                        <td colspan="7">Son dakika haberi bulunmuyor.</td>
                     </tr>
                     <?php
                 endif;
