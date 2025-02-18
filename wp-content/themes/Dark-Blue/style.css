@@ -1968,6 +1968,13 @@ html {
     align-items: center;
     margin-right: 30px;
     white-space: nowrap;
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.breaking-news-item:hover {
+    background: rgba(0, 0, 0, 0.2);
 }
 
 .breaking-news-thumbnail {
@@ -1977,22 +1984,31 @@ html {
     overflow: hidden;
     margin-right: 10px;
     flex-shrink: 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .breaking-news-thumbnail img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.breaking-news-item:hover .breaking-news-thumbnail img {
+    transform: scale(1.1);
 }
 
 .breaking-news a {
     color: #fff;
     text-decoration: none;
-    transition: color 0.3s ease;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
 }
 
 .breaking-news a:hover {
-    color: #C41E3A;
+    color: #D4AF37; /* Altın rengi */
+    text-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
 }
 
 @keyframes slide {
