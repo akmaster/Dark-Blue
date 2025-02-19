@@ -142,15 +142,23 @@ function dark_blue_settings_page() {
     // Ayarları kaydet
     if (isset($_POST['dark_blue_save_settings'])) {
         if (check_admin_referer('dark_blue_settings_nonce')) {
+            // Mevcut ayarları güncelle
             update_option('dark_blue_header_text', sanitize_text_field($_POST['header_text']));
             update_option('dark_blue_footer_text', sanitize_text_field($_POST['footer_text']));
             update_option('dark_blue_social_facebook', esc_url_raw($_POST['social_facebook']));
             update_option('dark_blue_social_twitter', esc_url_raw($_POST['social_twitter']));
             update_option('dark_blue_social_instagram', esc_url_raw($_POST['social_instagram']));
+            
+            // API Key güvenli bir şekilde kaydet
+            if (isset($_POST['gemini_api_key'])) {
+                update_option('dark_blue_gemini_api_key', sanitize_text_field($_POST['gemini_api_key']));
+            }
+            
             set_theme_mod('show_date', isset($_POST['show_date']) ? true : false);
             set_theme_mod('date_format', sanitize_text_field($_POST['date_format']));
             set_theme_mod('show_breaking_news', isset($_POST['show_breaking_news']) ? true : false);
             set_theme_mod('breaking_news_title', sanitize_text_field($_POST['breaking_news_title']));
+            
             echo '<div class="notice notice-success"><p>Ayarlar başarıyla kaydedildi.</p></div>';
         }
     }
@@ -161,6 +169,7 @@ function dark_blue_settings_page() {
     $social_facebook = get_option('dark_blue_social_facebook', '');
     $social_twitter = get_option('dark_blue_social_twitter', '');
     $social_instagram = get_option('dark_blue_social_instagram', '');
+    $gemini_api_key = get_option('dark_blue_gemini_api_key', '');
     $show_date = get_theme_mod('show_date', true);
     $date_format = get_theme_mod('date_format', 'full');
     $show_breaking_news = get_theme_mod('show_breaking_news', true);
@@ -173,6 +182,7 @@ function dark_blue_settings_page() {
             <a href="#general" class="nav-tab nav-tab-active">Genel Ayarlar</a>
             <a href="#breaking-news" class="nav-tab">Son Dakika</a>
             <a href="#social" class="nav-tab">Sosyal Medya</a>
+            <a href="#api" class="nav-tab">API Ayarları</a>
             <a href="#advanced" class="nav-tab">Gelişmiş Ayarlar</a>
         </div>
 
@@ -278,6 +288,29 @@ function dark_blue_settings_page() {
                                 <label for="social_instagram">Instagram:</label><br>
                                 <input type="url" id="social_instagram" name="social_instagram" 
                                        value="<?php echo esc_url($social_instagram); ?>" class="regular-text">
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="card">
+                <h2>API Ayarları</h2>
+                <table class="form-table">
+                    <tr>
+                        <th scope="row">
+                            <label for="gemini_api_key">Gemini API Anahtarı</label>
+                        </th>
+                        <td>
+                            <input type="password" 
+                                   id="gemini_api_key" 
+                                   name="gemini_api_key" 
+                                   value="<?php echo esc_attr($gemini_api_key); ?>" 
+                                   class="regular-text"
+                                   autocomplete="off">
+                            <p class="description">
+                                İçerik özgünleştirme için kullanılacak Gemini API anahtarını girin. 
+                                <a href="https://makersuite.google.com/app/apikey" target="_blank">Buradan</a> yeni bir anahtar alabilirsiniz.
                             </p>
                         </td>
                     </tr>
@@ -727,4 +760,50 @@ function dark_blue_enqueue_category_filter() {
         'nonce' => wp_create_nonce('dark_blue_filter_nonce')
     ));
 }
-add_action('wp_enqueue_scripts', 'dark_blue_enqueue_category_filter'); 
+add_action('wp_enqueue_scripts', 'dark_blue_enqueue_category_filter');
+
+/**
+ * İçerik özgünleştirici script'ini ekle
+ */
+function dark_blue_add_content_uniqueifier() {
+    if (is_admin()) {
+        wp_enqueue_script(
+            'dark-blue-content-uniqueifier',
+            get_template_directory_uri() . '/js/content-uniqueifier.js',
+            array('jquery', 'wp-data', 'wp-editor'),
+            '1.0.0',
+            true
+        );
+    }
+}
+add_action('admin_enqueue_scripts', 'dark_blue_add_content_uniqueifier');
+
+/**
+ * Admin paneline özgünleştirme script'ini ekle
+ */
+function dark_blue_admin_scripts($hook) {
+    // Sadece yazı editör sayfasında yükle
+    if ($hook == 'post.php' || $hook == 'post-new.php') {
+        wp_enqueue_script(
+            'content-uniqueifier',
+            get_template_directory_uri() . '/js/content-uniqueifier.js',
+            array('jquery', 'wp-editor', 'wp-data'),
+            DARK_BLUE_VERSION,
+            true
+        );
+    }
+}
+add_action('admin_enqueue_scripts', 'dark_blue_admin_scripts');
+
+/**
+ * API anahtarını JavaScript'e aktar
+ */
+function dark_blue_localize_api_key() {
+    $screen = get_current_screen();
+    if ($screen->base === 'post' || $screen->base === 'post-new') {
+        wp_localize_script('dark-blue-content-uniqueifier', 'darkBlueSettings', array(
+            'geminiApiKey' => get_option('dark_blue_gemini_api_key', '')
+        ));
+    }
+}
+add_action('admin_enqueue_scripts', 'dark_blue_localize_api_key'); 
