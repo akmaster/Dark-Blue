@@ -124,48 +124,5 @@ function dark_blue_sanitize_checkbox($checked) {
     return ((isset($checked) && true == $checked) ? true : false);
 }
 
-/**
- * AJAX ile haberleri filtrele
- */
-function dark_blue_filter_posts() {
-    check_ajax_referer('dark_blue_nonce', 'nonce');
-
-    $filter = isset($_POST['filter']) ? sanitize_text_field($_POST['filter']) : '';
-    
-    $args = array(
-        'post_type' => 'post',
-        'posts_per_page' => -1,
-        'orderby' => 'date',
-        'order' => 'DESC'
-    );
-
-    if ($filter !== '') {
-        $args['meta_query'] = array(
-            array(
-                'key' => '_is_breaking_news',
-                'value' => $filter,
-                'compare' => '='
-            )
-        );
-    }
-
-    $posts = get_posts($args);
-    $output = '';
-
-    foreach ($posts as $post) {
-        $is_breaking = get_post_meta($post->ID, '_is_breaking_news', true);
-        $categories = get_the_category($post->ID);
-        $category = !empty($categories) ? $categories[0]->name : '';
-
-        $output .= '<tr>';
-        $output .= '<td><a href="' . get_edit_post_link($post->ID) . '">' . esc_html($post->post_title) . '</a></td>';
-        $output .= '<td>' . get_the_author_meta('display_name', $post->post_author) . '</td>';
-        $output .= '<td>' . esc_html($category) . '</td>';
-        $output .= '<td>' . get_the_date('', $post->ID) . '</td>';
-        $output .= '<td><input type="checkbox" class="breaking-news-toggle" data-post-id="' . $post->ID . '" ' . checked($is_breaking, '1', false) . '></td>';
-        $output .= '</tr>';
-    }
-
-    wp_send_json_success($output);
-}
-add_action('wp_ajax_dark_blue_filter_posts', 'dark_blue_filter_posts'); 
+// Kategori filtreleme işlemi inc/core/ajax-handlers.php dosyasına taşındı
+// Buradaki dark_blue_filter_posts() fonksiyonu kaldırıldı 

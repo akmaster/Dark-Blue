@@ -1,186 +1,144 @@
 /**
- * Dark Blue Theme - Widget Styles
+ * Dark Blue Theme - Widget Stilleri
  * Dosya Yolu: wp-content/themes/Dark-Blue/assets/css/widgets.css
- * Bağımlılıklar: Font Awesome
- * Açıklama: Widget'lar için stil tanımlamaları
+ * Bağımlılıklar: main.css
+ * Açıklama: Widget alanları için özel stiller
  */
 
 /* Genel Widget Stilleri */
 .widget {
-    margin-bottom: 30px;
-    padding: 20px;
-    background: var(--dark-blue-widget-bg, #1a1f2c);
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: var(--background);
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
 }
 
 .widget-title {
-    margin: 0 0 20px;
-    padding-bottom: 10px;
     font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--dark-blue-widget-title, #ffffff);
-    border-bottom: 2px solid var(--dark-blue-primary, #3498db);
-}
-
-/* Yazar Widget'ı */
-.author-widget {
-    text-align: center;
-}
-
-.author-avatar {
-    margin-bottom: 15px;
-}
-
-.author-avatar img {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    border: 3px solid var(--dark-blue-primary, #3498db);
-    transition: transform 0.3s ease;
-}
-
-.author-avatar img:hover {
-    transform: scale(1.05);
-}
-
-.author-name {
-    margin: 0 0 10px;
-    font-size: 1.2rem;
-    color: var(--dark-blue-text, #ffffff);
-}
-
-.author-bio {
-    margin-bottom: 15px;
-    font-size: 0.9rem;
-    color: var(--dark-blue-text-light, #b0b0b0);
-    line-height: 1.6;
-}
-
-.author-social {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-}
-
-.author-social .social-link {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    background: var(--dark-blue-social-bg, #2c3e50);
-    color: var(--dark-blue-social-icon, #ffffff);
-    transition: all 0.3s ease;
-}
-
-.author-social .social-link:hover {
-    background: var(--dark-blue-primary, #3498db);
-    transform: translateY(-2px);
-}
-
-.author-social .social-link i {
-    font-size: 1rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--primary-color);
+    color: var(--text-color);
 }
 
 /* Popüler Yazılar Widget'ı */
-.popular-posts-widget .post-item {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 15px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid var(--dark-blue-border, #2c3e50);
+.popular-posts {
+    list-style: none;
+    padding: 0;
 }
 
-.popular-posts-widget .post-item:last-child {
+.popular-post {
+    display: flex;
+    align-items: start;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.popular-post:last-child {
     margin-bottom: 0;
     padding-bottom: 0;
     border-bottom: none;
 }
 
-.post-item-thumbnail {
+.popular-post .post-thumbnail {
     flex: 0 0 80px;
+    margin-right: 1rem;
 }
 
-.post-item-thumbnail img {
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
-    border-radius: 4px;
-    transition: opacity 0.3s ease;
+.popular-post .post-thumbnail img {
+    width: 100%;
+    height: auto;
+    border-radius: 0.25rem;
 }
 
-.post-item-thumbnail img:hover {
-    opacity: 0.8;
-}
-
-.post-item-content {
+.popular-post .post-content {
     flex: 1;
 }
 
-.post-item-title {
-    margin: 0 0 8px;
+.popular-post h3 {
     font-size: 1rem;
-    line-height: 1.4;
+    margin: 0 0 0.5rem;
 }
 
-.post-item-title a {
-    color: var(--dark-blue-text, #ffffff);
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-.post-item-title a:hover {
-    color: var(--dark-blue-primary, #3498db);
-}
-
-.post-item-meta {
-    display: flex;
-    gap: 15px;
+.popular-post .post-meta {
     font-size: 0.8rem;
-    color: var(--dark-blue-text-light, #b0b0b0);
+    color: var(--light-text);
 }
 
-.post-item-meta span {
+/* Son Dakika Widget'ı */
+.breaking-news-widget {
+    background: var(--error);
+    color: var(--background);
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+
+.breaking-news-title {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.breaking-news-slider {
+    position: relative;
+    overflow: hidden;
+}
+
+.breaking-news-item {
+    display: none;
+    padding: 0.5rem 0;
+}
+
+.breaking-news-item.active {
+    display: block;
+}
+
+/* Kategori Widget'ı */
+.widget_categories ul {
+    list-style: none;
+    padding: 0;
+}
+
+.widget_categories li {
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.widget_categories li:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.widget_categories a {
+    color: var(--text-color);
+    text-decoration: none;
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 5px;
 }
 
-.post-item-meta i {
-    font-size: 0.9rem;
-    color: var(--dark-blue-primary, #3498db);
+.widget_categories a:hover {
+    color: var(--primary-color);
 }
 
-/* Responsive Tasarım */
-@media screen and (max-width: 768px) {
+.widget_categories .count {
+    background: var(--light-background);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.8rem;
+    color: var(--light-text);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
     .widget {
-        padding: 15px;
+        padding: 1rem;
     }
-
-    .author-avatar img {
-        width: 100px;
-        height: 100px;
-    }
-
-    .post-item-thumbnail {
+    
+    .popular-post .post-thumbnail {
         flex: 0 0 60px;
-    }
-
-    .post-item-thumbnail img {
-        width: 60px;
-        height: 60px;
-    }
-
-    .post-item-title {
-        font-size: 0.9rem;
-    }
-}
-
-@media screen and (max-width: 480px) {
-    .post-item-meta {
-        flex-direction: column;
-        gap: 5px;
     }
 } 
