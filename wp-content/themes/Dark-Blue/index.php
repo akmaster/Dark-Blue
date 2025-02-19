@@ -131,6 +131,33 @@ get_header(); ?>
     <main id="main" class="site-main">
         <section id="latest-posts" class="posts-grid">
             <?php if (have_posts()) : ?>
+                <div class="category-filter">
+                    <ul class="category-filter-list">
+                        <li class="category-filter-item">
+                            <a href="<?php echo esc_url(home_url('/')); ?>" class="category-filter-link<?php echo is_home() && !is_category() ? ' active' : ''; ?>" data-category-id="0">
+                                Tümü
+                                <span class="post-count"><?php echo wp_count_posts()->publish; ?></span>
+                            </a>
+                        </li>
+                        <?php
+                        $categories = get_categories(array(
+                            'orderby' => 'name',
+                            'order' => 'ASC',
+                            'hide_empty' => true
+                        ));
+                        
+                        foreach($categories as $category) :
+                            $category_link = get_category_link($category->term_id);
+                        ?>
+                            <li class="category-filter-item">
+                                <a href="<?php echo esc_url($category_link); ?>" class="category-filter-link<?php echo is_category($category->term_id) ? ' active' : ''; ?>" data-category-id="<?php echo $category->term_id; ?>">
+                                    <?php echo esc_html($category->name); ?>
+                                    <span class="post-count"><?php echo esc_html($category->count); ?></span>
+                                </a>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
                 <div class="grid-container">
                     <?php while (have_posts()) : the_post(); ?>
                         <article class="card post-card">

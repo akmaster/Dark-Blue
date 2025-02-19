@@ -659,4 +659,72 @@ function dark_blue_breaking_news_page() {
  */
 function dark_blue_sanitize_checkbox($checked) {
     return ((isset($checked) && true == $checked) ? true : false);
-} 
+}
+
+/**
+ * Kategori Filtresi için AJAX İşleyici
+ */
+function dark_blue_filter_posts() {
+    check_ajax_referer('dark_blue_filter_nonce', 'nonce');
+    
+    $category = isset($_POST['category']) ? intval($_POST['category']) : 0;
+    
+    $args = array(
+        'post_type' => 'post',
+        'posts_per_page' => get_option('posts_per_page'),
+        'post_status' => 'publish'
+    );
+    
+    if ($category > 0) {
+        $args['cat'] = $category;
+    }
+    
+    $query = new WP_Query($args);
+    
+    if ($query->have_posts()) :
+        while ($query->have_posts()) : $query->the_post();
+            ?>
+            <article class="card post-card">
+                <?php if (has_post_thumbnail()) : ?>
+                    <div class="post-thumbnail">
+                        <?php the_post_thumbnail('medium'); ?>
+                    </div>
+                <?php endif; ?>
+                <div class="post-content">
+                    <h2 class="post-title">
+                        <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                    </h2>
+                    <div class="post-meta">
+                        <span class="post-date"><?php echo get_the_date(); ?></span>
+                        <span class="post-author"><?php the_author(); ?></span>
+                    </div>
+                    <div class="post-excerpt">
+                        <?php the_excerpt(); ?>
+                    </div>
+                    <a href="<?php the_permalink(); ?>" class="button">Devamını Oku</a>
+                </div>
+            </article>
+            <?php
+        endwhile;
+        wp_reset_postdata();
+    else :
+        echo '<div class="no-posts"><h2>Bu kategoride henüz içerik bulunmuyor</h2><p>Yakında yeni içerikler eklenecektir.</p></div>';
+    endif;
+    
+    die();
+}
+add_action('wp_ajax_filter_posts', 'dark_blue_filter_posts');
+add_action('wp_ajax_nopriv_filter_posts', 'dark_blue_filter_posts');
+
+/**
+ * Kategori Filtresi için Script ve Localize
+ */
+function dark_blue_enqueue_category_filter() {
+    wp_enqueue_script('dark-blue-category-filter', get_template_directory_uri() . '/js/category-filter.js', array('jquery'), DARK_BLUE_VERSION, true);
+    
+    wp_localize_script('dark-blue-category-filter', 'darkBlueAjax', array(
+        'ajaxurl' => admin_url('admin-ajax.php'),
+        'nonce' => wp_create_nonce('dark_blue_filter_nonce')
+    ));
+}
+add_action('wp_enqueue_scripts', 'dark_blue_enqueue_category_filter'); 
