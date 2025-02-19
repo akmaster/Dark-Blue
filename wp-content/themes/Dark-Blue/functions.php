@@ -114,23 +114,44 @@ function dark_blue_admin_menu() {
         60 // Pozisyon
     );
 
+    // Ana Ayarlar alt menüsü
     add_submenu_page(
-        'dark-blue-settings', // Ana menü slug
-        'Tema Ayarları', // Sayfa başlığı
-        'Tema Ayarları', // Menü başlığı
-        'manage_options', // Gerekli yetki
-        'dark-blue-settings', // Menü slug (ana menü ile aynı)
-        'dark_blue_settings_page' // Callback fonksiyonu
+        'dark-blue-settings',
+        'Genel Ayarlar',
+        'Genel Ayarlar',
+        'manage_options',
+        'dark-blue-settings',
+        'dark_blue_settings_page'
     );
 
     // Son Dakika Haberler alt menüsü
     add_submenu_page(
-        'dark-blue-settings', // Ana menü slug
-        'Son Dakika Haberler', // Sayfa başlığı
-        'Son Dakika Haberler', // Menü başlığı
-        'manage_options', // Gerekli yetki
-        'dark-blue-breaking-news', // Menü slug
-        'dark_blue_breaking_news_page' // Callback fonksiyonu
+        'dark-blue-settings',
+        'Son Dakika Haberler',
+        'Son Dakika Haberler',
+        'manage_options',
+        'dark-blue-breaking-news',
+        'dark_blue_breaking_news_page'
+    );
+
+    // Tasarım Ayarları alt menüsü
+    add_submenu_page(
+        'dark-blue-settings',
+        'Tasarım Ayarları',
+        'Tasarım Ayarları',
+        'manage_options',
+        'dark-blue-design',
+        'dark_blue_design_page'
+    );
+
+    // SEO Ayarları alt menüsü
+    add_submenu_page(
+        'dark-blue-settings',
+        'SEO Ayarları',
+        'SEO Ayarları',
+        'manage_options',
+        'dark-blue-seo',
+        'dark_blue_seo_page'
     );
 }
 add_action('admin_menu', 'dark_blue_admin_menu');
@@ -159,7 +180,7 @@ function dark_blue_settings_page() {
             set_theme_mod('show_breaking_news', isset($_POST['show_breaking_news']) ? true : false);
             set_theme_mod('breaking_news_title', sanitize_text_field($_POST['breaking_news_title']));
             
-            echo '<div class="notice notice-success"><p>Ayarlar başarıyla kaydedildi.</p></div>';
+            echo '<div class="notice notice-success is-dismissible"><p><strong>✓</strong> Ayarlar başarıyla kaydedildi.</p></div>';
         }
     }
 
@@ -176,164 +197,653 @@ function dark_blue_settings_page() {
     $breaking_news_title = get_theme_mod('breaking_news_title', 'SON DAKİKA');
     ?>
     <div class="wrap dark-blue-admin-page">
-        <h1><i class="dashicons dashicons-admin-customizer"></i> Dark Blue Tema Ayarları</h1>
-        
-        <div class="nav-tab-wrapper">
-            <a href="#general" class="nav-tab nav-tab-active">Genel Ayarlar</a>
-            <a href="#breaking-news" class="nav-tab">Son Dakika</a>
-            <a href="#social" class="nav-tab">Sosyal Medya</a>
-            <a href="#api" class="nav-tab">API Ayarları</a>
-            <a href="#advanced" class="nav-tab">Gelişmiş Ayarlar</a>
+        <div class="dark-blue-header">
+            <h1>
+                <img src="<?php echo get_template_directory_uri(); ?>/assets/images/logo-dark.png" alt="Dark Blue" class="dark-blue-logo">
+                Dark Blue Tema Ayarları
+            </h1>
+            <div class="dark-blue-version">Versiyon: <?php echo DARK_BLUE_VERSION; ?></div>
         </div>
 
-        <form method="post" action="">
-            <?php wp_nonce_field('dark_blue_settings_nonce'); ?>
-            
-            <div class="card">
-                <h2>Genel Ayarlar</h2>
-                <table class="form-table">
-                    <tr>
-                        <th scope="row">
-                            <label for="show_date">Tarih Gösterimi</label>
-                        </th>
-                        <td>
-                            <label>
-                                <input type="checkbox" id="show_date" name="show_date" <?php checked($show_date, true); ?>>
-                                Header'da tarih göster
-                            </label>
-                            <p class="description">Header üst kısmında tarih gösterimini açıp kapatabilirsiniz.</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">
-                            <label for="date_format">Tarih Formatı</label>
-                        </th>
-                        <td>
-                            <select name="date_format" id="date_format">
-                                <option value="full" <?php selected($date_format, 'full'); ?>>Tam Format (Örn: Çarşamba, 19 Şubat 2024)</option>
-                                <option value="medium" <?php selected($date_format, 'medium'); ?>>Orta Format (Örn: 19 Şubat 2024)</option>
-                                <option value="short" <?php selected($date_format, 'short'); ?>>Kısa Format (Örn: 19.02.2024)</option>
-                                <option value="day_month" <?php selected($date_format, 'day_month'); ?>>Gün ve Ay (Örn: 19 Şubat)</option>
-                                <option value="month_year" <?php selected($date_format, 'month_year'); ?>>Ay ve Yıl (Örn: Şubat 2024)</option>
-                            </select>
-                            <p class="description">Tarihin nasıl görüntüleneceğini seçin.</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">
-                            <label for="header_text">Header Metni</label>
-                        </th>
-                        <td>
-                            <input type="text" id="header_text" name="header_text" 
-                                   value="<?php echo esc_attr($header_text); ?>" class="regular-text">
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">
-                            <label for="footer_text">Footer Metni</label>
-                        </th>
-                        <td>
-                            <input type="text" id="footer_text" name="footer_text" 
-                                   value="<?php echo esc_attr($footer_text); ?>" class="regular-text">
-                        </td>
-                    </tr>
-                </table>
+        <div class="dark-blue-admin-content">
+            <div class="dark-blue-sidebar">
+                <nav class="dark-blue-nav">
+                    <a href="#general" class="nav-tab active" data-tab="general">
+                        <span class="dashicons dashicons-admin-generic"></span>
+                        Genel Ayarlar
+                    </a>
+                    <a href="#header-footer" class="nav-tab" data-tab="header-footer">
+                        <span class="dashicons dashicons-align-wide"></span>
+                        Header & Footer
+                    </a>
+                    <a href="#social" class="nav-tab" data-tab="social">
+                        <span class="dashicons dashicons-share"></span>
+                        Sosyal Medya
+                    </a>
+                    <a href="#breaking-news" class="nav-tab" data-tab="breaking-news">
+                        <span class="dashicons dashicons-megaphone"></span>
+                        Son Dakika
+                    </a>
+                    <a href="#api" class="nav-tab" data-tab="api">
+                        <span class="dashicons dashicons-admin-plugins"></span>
+                        API Ayarları
+                    </a>
+                    <a href="#advanced" class="nav-tab" data-tab="advanced">
+                        <span class="dashicons dashicons-admin-tools"></span>
+                        Gelişmiş Ayarlar
+                    </a>
+                </nav>
             </div>
 
-            <div class="card">
-                <h2>Son Dakika Ayarları</h2>
-                <table class="form-table">
-                    <tr>
-                        <th scope="row">
-                            <label for="show_breaking_news">Son Dakika Gösterimi</label>
-                        </th>
-                        <td>
-                            <label>
-                                <input type="checkbox" id="show_breaking_news" name="show_breaking_news" <?php checked($show_breaking_news, true); ?>>
-                                Son dakika bölümünü göster
-                            </label>
-                            <p class="description">Header altında son dakika haberlerinin gösterimini açıp kapatabilirsiniz.</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">
-                            <label for="breaking_news_title">Son Dakika Başlığı</label>
-                        </th>
-                        <td>
-                            <input type="text" id="breaking_news_title" name="breaking_news_title" 
-                                   value="<?php echo esc_attr($breaking_news_title); ?>" class="regular-text">
-                            <p class="description">Son dakika bölümünde görünecek başlık metnini belirleyin.</p>
-                        </td>
-                    </tr>
-                </table>
-            </div>
+            <div class="dark-blue-main-content">
+                <form method="post" action="" class="dark-blue-settings-form">
+                    <?php wp_nonce_field('dark_blue_settings_nonce'); ?>
+                    
+                    <div class="tab-content active" id="general">
+                        <div class="settings-card">
+                            <h2><span class="dashicons dashicons-admin-generic"></span> Genel Ayarlar</h2>
+                            <div class="settings-card-content">
+                                <div class="form-group">
+                                    <label for="show_date">Tarih Gösterimi</label>
+                                    <div class="toggle-switch">
+                                        <input type="checkbox" id="show_date" name="show_date" <?php checked($show_date, true); ?>>
+                                        <label for="show_date"></label>
+                                    </div>
+                                    <p class="description">Header üst kısmında tarih gösterimini açıp kapatabilirsiniz.</p>
+                                </div>
 
-            <div class="card">
-                <h2>Sosyal Medya Bağlantıları</h2>
-                <table class="form-table">
-                    <tr>
-                        <th scope="row">Sosyal Medya</th>
-                        <td>
-                            <p>
-                                <label for="social_facebook">Facebook:</label><br>
-                                <input type="url" id="social_facebook" name="social_facebook" 
-                                       value="<?php echo esc_url($social_facebook); ?>" class="regular-text">
-                            </p>
-                            <p>
-                                <label for="social_twitter">Twitter:</label><br>
-                                <input type="url" id="social_twitter" name="social_twitter" 
-                                       value="<?php echo esc_url($social_twitter); ?>" class="regular-text">
-                            </p>
-                            <p>
-                                <label for="social_instagram">Instagram:</label><br>
-                                <input type="url" id="social_instagram" name="social_instagram" 
-                                       value="<?php echo esc_url($social_instagram); ?>" class="regular-text">
-                            </p>
-                        </td>
-                    </tr>
-                </table>
-            </div>
+                                <div class="form-group">
+                                    <label for="date_format">Tarih Formatı</label>
+                                    <select name="date_format" id="date_format" class="regular-select">
+                                        <option value="full" <?php selected($date_format, 'full'); ?>>Tam Format (Örn: Çarşamba, 19 Şubat 2024)</option>
+                                        <option value="medium" <?php selected($date_format, 'medium'); ?>>Orta Format (Örn: 19 Şubat 2024)</option>
+                                        <option value="short" <?php selected($date_format, 'short'); ?>>Kısa Format (Örn: 19.02.2024)</option>
+                                        <option value="day_month" <?php selected($date_format, 'day_month'); ?>>Gün ve Ay (Örn: 19 Şubat)</option>
+                                        <option value="month_year" <?php selected($date_format, 'month_year'); ?>>Ay ve Yıl (Örn: Şubat 2024)</option>
+                                    </select>
+                                    <p class="description">Tarihin nasıl görüntüleneceğini seçin.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-            <div class="card">
-                <h2>API Ayarları</h2>
-                <table class="form-table">
-                    <tr>
-                        <th scope="row">
-                            <label for="gemini_api_key">Gemini API Anahtarı</label>
-                        </th>
-                        <td>
-                            <input type="password" 
-                                   id="gemini_api_key" 
-                                   name="gemini_api_key" 
-                                   value="<?php echo esc_attr($gemini_api_key); ?>" 
-                                   class="regular-text"
-                                   autocomplete="off">
-                            <p class="description">
-                                İçerik özgünleştirme için kullanılacak Gemini API anahtarını girin. 
-                                <a href="https://makersuite.google.com/app/apikey" target="_blank">Buradan</a> yeni bir anahtar alabilirsiniz.
-                            </p>
-                        </td>
-                    </tr>
-                </table>
+                    <div class="tab-content" id="header-footer">
+                        <div class="settings-card">
+                            <h2><span class="dashicons dashicons-align-wide"></span> Header & Footer Ayarları</h2>
+                            <div class="settings-card-content">
+                                <div class="form-group">
+                                    <label for="header_text">Header Metni</label>
+                                    <input type="text" id="header_text" name="header_text" 
+                                           value="<?php echo esc_attr($header_text); ?>" class="regular-text">
+                                    <p class="description">Header bölümünde görünecek metin.</p>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="footer_text">Footer Metni</label>
+                                    <input type="text" id="footer_text" name="footer_text" 
+                                           value="<?php echo esc_attr($footer_text); ?>" class="regular-text">
+                                    <p class="description">Footer bölümünde görünecek metin.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-content" id="social">
+                        <div class="settings-card">
+                            <h2><span class="dashicons dashicons-share"></span> Sosyal Medya Ayarları</h2>
+                            <div class="settings-card-content">
+                                <div class="form-group">
+                                    <label for="social_facebook">
+                                        <i class="fab fa-facebook"></i> Facebook
+                                    </label>
+                                    <input type="url" id="social_facebook" name="social_facebook" 
+                                           value="<?php echo esc_url($social_facebook); ?>" class="regular-text">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="social_twitter">
+                                        <i class="fab fa-twitter"></i> Twitter
+                                    </label>
+                                    <input type="url" id="social_twitter" name="social_twitter" 
+                                           value="<?php echo esc_url($social_twitter); ?>" class="regular-text">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="social_instagram">
+                                        <i class="fab fa-instagram"></i> Instagram
+                                    </label>
+                                    <input type="url" id="social_instagram" name="social_instagram" 
+                                           value="<?php echo esc_url($social_instagram); ?>" class="regular-text">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-content" id="breaking-news">
+                        <div class="settings-card">
+                            <h2><span class="dashicons dashicons-megaphone"></span> Son Dakika Ayarları</h2>
+                            <div class="settings-card-content">
+                                <div class="form-group">
+                                    <label for="show_breaking_news">Son Dakika Gösterimi</label>
+                                    <div class="toggle-switch">
+                                        <input type="checkbox" id="show_breaking_news" name="show_breaking_news" 
+                                               <?php checked($show_breaking_news, true); ?>>
+                                        <label for="show_breaking_news"></label>
+                                    </div>
+                                    <p class="description">Son dakika bölümünün gösterimini açıp kapatabilirsiniz.</p>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="breaking_news_title">Son Dakika Başlığı</label>
+                                    <input type="text" id="breaking_news_title" name="breaking_news_title" 
+                                           value="<?php echo esc_attr($breaking_news_title); ?>" class="regular-text">
+                                    <p class="description">Son dakika bölümünde görünecek başlık.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-content" id="api">
+                        <div class="settings-card">
+                            <h2><span class="dashicons dashicons-admin-plugins"></span> API Ayarları</h2>
+                            <div class="settings-card-content">
+                                <div class="form-group">
+                                    <label for="gemini_api_key">Gemini API Anahtarı</label>
+                                    <div class="api-key-input">
+                                        <input type="password" id="gemini_api_key" name="gemini_api_key" 
+                                               value="<?php echo esc_attr($gemini_api_key); ?>" class="regular-text">
+                                        <button type="button" class="button show-hide-key">
+                                            <span class="dashicons dashicons-visibility"></span>
+                                        </button>
+                                    </div>
+                                    <p class="description">
+                                        İçerik özgünleştirme için kullanılacak Gemini API anahtarı. 
+                                        <a href="https://makersuite.google.com/app/apikey" target="_blank">
+                                            Buradan yeni bir anahtar alabilirsiniz
+                                            <span class="dashicons dashicons-external"></span>
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-content" id="advanced">
+                        <div class="settings-card">
+                            <h2><span class="dashicons dashicons-admin-tools"></span> Gelişmiş Ayarlar</h2>
+                            <div class="settings-card-content">
+                                <div class="form-group">
+                                    <label>Tema Verilerini Sıfırla</label>
+                                    <button type="button" class="button button-secondary reset-settings">
+                                        <span class="dashicons dashicons-backup"></span>
+                                        Varsayılan Ayarlara Dön
+                                    </button>
+                                    <p class="description warning">
+                                        <span class="dashicons dashicons-warning"></span>
+                                        Bu işlem tüm tema ayarlarını varsayılan değerlerine sıfırlayacaktır.
+                                    </p>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Tema Verilerini Yedekle</label>
+                                    <div class="button-group">
+                                        <button type="button" class="button button-primary backup-settings">
+                                            <span class="dashicons dashicons-download"></span>
+                                            Yedek Al
+                                        </button>
+                                        <button type="button" class="button button-secondary restore-settings">
+                                            <span class="dashicons dashicons-upload"></span>
+                                            Yedeği Geri Yükle
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dark-blue-footer">
+                        <div class="actions">
+                            <button type="submit" name="dark_blue_save_settings" class="button button-primary">
+                                <span class="dashicons dashicons-saved"></span>
+                                Ayarları Kaydet
+                            </button>
+                            <button type="reset" class="button button-secondary">
+                                <span class="dashicons dashicons-dismiss"></span>
+                                Değişiklikleri İptal Et
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
-            
-            <p class="submit">
-                <input type="submit" name="dark_blue_save_settings" class="button button-primary" 
-                       value="Ayarları Kaydet">
-                <a href="#" class="button button-secondary">Varsayılan Ayarlar</a>
-            </p>
-        </form>
+        </div>
     </div>
+
+    <style>
+    .dark-blue-admin-page {
+        margin: 20px;
+        background: #1f2937;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        color: #e5e7eb;
+    }
+
+    .dark-blue-header {
+        padding: 20px;
+        background: #111827;
+        color: #fff;
+        border-radius: 8px 8px 0 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid #374151;
+    }
+
+    .dark-blue-header h1 {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin: 0;
+        color: #fff;
+    }
+
+    .dark-blue-logo {
+        height: 40px;
+        width: auto;
+        filter: brightness(1.2);
+    }
+
+    .dark-blue-version {
+        background: rgba(255,255,255,0.1);
+        padding: 5px 10px;
+        border-radius: 4px;
+        font-size: 12px;
+        color: #9ca3af;
+    }
+
+    .dark-blue-admin-content {
+        display: flex;
+        min-height: 600px;
+    }
+
+    .dark-blue-sidebar {
+        width: 250px;
+        background: #111827;
+        border-right: 1px solid #374151;
+    }
+
+    .dark-blue-nav {
+        padding: 20px 0;
+    }
+
+    .dark-blue-nav .nav-tab {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 20px;
+        color: #9ca3af;
+        text-decoration: none;
+        border-left: 3px solid transparent;
+        transition: all 0.3s ease;
+    }
+
+    .dark-blue-nav .nav-tab:hover,
+    .dark-blue-nav .nav-tab.active {
+        background: #1f2937;
+        border-left-color: #3b82f6;
+        color: #60a5fa;
+    }
+
+    .dark-blue-nav .dashicons {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+    }
+
+    .dark-blue-main-content {
+        flex: 1;
+        padding: 30px;
+        background: #1f2937;
+    }
+
+    .settings-card {
+        background: #111827;
+        border: 1px solid #374151;
+        border-radius: 6px;
+        margin-bottom: 20px;
+    }
+
+    .settings-card h2 {
+        margin: 0;
+        padding: 15px 20px;
+        border-bottom: 1px solid #374151;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 16px;
+        color: #e5e7eb;
+        background: #1f2937;
+        border-radius: 6px 6px 0 0;
+    }
+
+    .settings-card-content {
+        padding: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group:last-child {
+        margin-bottom: 0;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #e5e7eb;
+    }
+
+    .regular-text {
+        width: 100%;
+        max-width: 400px;
+        background: #374151;
+        border: 1px solid #4b5563;
+        color: #e5e7eb;
+        padding: 8px 12px;
+        border-radius: 4px;
+    }
+
+    .regular-text:focus {
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 1px #3b82f6;
+        outline: none;
+    }
+
+    .regular-select {
+        width: 100%;
+        max-width: 400px;
+        height: 35px;
+        background: #374151;
+        border: 1px solid #4b5563;
+        color: #e5e7eb;
+        padding: 0 12px;
+        border-radius: 4px;
+    }
+
+    .regular-select:focus {
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 1px #3b82f6;
+        outline: none;
+    }
+
+    .toggle-switch {
+        position: relative;
+        display: inline-block;
+        width: 50px;
+        height: 24px;
+    }
+
+    .toggle-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .toggle-switch label {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #4b5563;
+        transition: .4s;
+        border-radius: 34px;
+    }
+
+    .toggle-switch label:before {
+        position: absolute;
+        content: "";
+        height: 20px;
+        width: 20px;
+        left: 2px;
+        bottom: 2px;
+        background-color: #e5e7eb;
+        transition: .4s;
+        border-radius: 50%;
+    }
+
+    .toggle-switch input:checked + label {
+        background-color: #3b82f6;
+    }
+
+    .toggle-switch input:checked + label:before {
+        transform: translateX(26px);
+    }
+
+    .description {
+        margin-top: 8px;
+        color: #9ca3af;
+        font-size: 13px;
+    }
+
+    .warning {
+        color: #ef4444;
+    }
+
+    .api-key-input {
+        display: flex;
+        gap: 10px;
+        max-width: 400px;
+    }
+
+    .show-hide-key {
+        padding: 0 8px;
+        background: #374151;
+        border: 1px solid #4b5563;
+        color: #e5e7eb;
+    }
+
+    .show-hide-key:hover {
+        background: #4b5563;
+    }
+
+    .button-group {
+        display: flex;
+        gap: 10px;
+    }
+
+    .dark-blue-footer {
+        margin-top: 30px;
+        padding: 20px;
+        background: #111827;
+        border-top: 1px solid #374151;
+        border-radius: 0 0 8px 8px;
+    }
+
+    .dark-blue-footer .actions {
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+    }
+
+    .button.button-primary {
+        background: #3b82f6;
+        border-color: #2563eb;
+        color: #fff;
+    }
+
+    .button.button-primary:hover {
+        background: #2563eb;
+        border-color: #1d4ed8;
+    }
+
+    .button.button-secondary {
+        background: #4b5563;
+        border-color: #374151;
+        color: #e5e7eb;
+    }
+
+    .button.button-secondary:hover {
+        background: #374151;
+        border-color: #1f2937;
+    }
+
+    .tab-content {
+        display: none;
+    }
+
+    .tab-content.active {
+        display: block;
+    }
+
+    /* Responsive Tasarım */
+    @media screen and (max-width: 782px) {
+        .dark-blue-admin-content {
+            flex-direction: column;
+        }
+
+        .dark-blue-sidebar {
+            width: 100%;
+            border-right: none;
+            border-bottom: 1px solid #374151;
+        }
+
+        .dark-blue-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 10px;
+        }
+
+        .dark-blue-nav .nav-tab {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .dark-blue-main-content {
+            padding: 15px;
+        }
+    }
+
+    /* Özel Scrollbar */
+    .dark-blue-admin-page ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+
+    .dark-blue-admin-page ::-webkit-scrollbar-track {
+        background: #1f2937;
+    }
+
+    .dark-blue-admin-page ::-webkit-scrollbar-thumb {
+        background: #4b5563;
+        border-radius: 4px;
+    }
+
+    .dark-blue-admin-page ::-webkit-scrollbar-thumb:hover {
+        background: #374151;
+    }
+
+    /* Notice Stilleri */
+    .notice {
+        background: #111827 !important;
+        border-left-color: #3b82f6 !important;
+        color: #e5e7eb !important;
+    }
+
+    .notice-success {
+        border-left-color: #10b981 !important;
+    }
+
+    .notice-warning {
+        border-left-color: #f59e0b !important;
+    }
+
+    .notice-error {
+        border-left-color: #ef4444 !important;
+    }
+
+    /* Link Stilleri */
+    .dark-blue-admin-page a {
+        color: #60a5fa;
+        text-decoration: none;
+    }
+
+    .dark-blue-admin-page a:hover {
+        color: #3b82f6;
+        text-decoration: underline;
+    }
+
+    /* Input Placeholder Rengi */
+    .dark-blue-admin-page ::placeholder {
+        color: #9ca3af;
+    }
+    </style>
+
+    <script>
+    jQuery(document).ready(function($) {
+        // Tab değiştirme
+        $('.dark-blue-nav .nav-tab').on('click', function(e) {
+            e.preventDefault();
+            var targetTab = $(this).data('tab');
+            
+            $('.dark-blue-nav .nav-tab').removeClass('active');
+            $(this).addClass('active');
+            
+            $('.tab-content').removeClass('active');
+            $('#' + targetTab).addClass('active');
+        });
+
+        // API anahtarı göster/gizle
+        $('.show-hide-key').on('click', function() {
+            var input = $('#gemini_api_key');
+            var icon = $(this).find('.dashicons');
+            
+            if (input.attr('type') === 'password') {
+                input.attr('type', 'text');
+                icon.removeClass('dashicons-visibility').addClass('dashicons-hidden');
+            } else {
+                input.attr('type', 'password');
+                icon.removeClass('dashicons-hidden').addClass('dashicons-visibility');
+            }
+        });
+
+        // Ayarları sıfırlama onayı
+        $('.reset-settings').on('click', function() {
+            if (confirm('Tüm tema ayarlarını varsayılan değerlerine sıfırlamak istediğinizden emin misiniz?')) {
+                // Sıfırlama işlemi
+            }
+        });
+
+        // Form değişiklik kontrolü
+        var formChanged = false;
+        $('.dark-blue-settings-form :input').on('change', function() {
+            formChanged = true;
+        });
+
+        // Sayfadan ayrılma uyarısı
+        $(window).on('beforeunload', function() {
+            if (formChanged) {
+                return 'Kaydedilmemiş değişiklikleriniz var. Sayfadan ayrılmak istediğinizden emin misiniz?';
+            }
+        });
+
+        // Form gönderildiğinde değişiklik bayrağını sıfırla
+        $('.dark-blue-settings-form').on('submit', function() {
+            formChanged = false;
+        });
+    });
+    </script>
     <?php
 }
 
-/**
- * Admin Stil Dosyasını Ekle
- */
-function dark_blue_admin_styles() {
-    $screen = get_current_screen();
-    if (strpos($screen->id, 'dark-blue') !== false) {
-        wp_enqueue_style('dark-blue-admin', get_template_directory_uri() . '/css/admin.css', array(), DARK_BLUE_VERSION);
+// Admin stil dosyasını ekle
+function dark_blue_admin_styles($hook) {
+    if (strpos($hook, 'dark-blue') !== false) {
+        wp_enqueue_style('dark-blue-admin', get_template_directory_uri() . '/assets/css/admin.css', array(), DARK_BLUE_VERSION);
+        wp_enqueue_style('fontawesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css', array(), '5.15.4');
     }
 }
 add_action('admin_enqueue_scripts', 'dark_blue_admin_styles');
