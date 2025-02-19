@@ -46,9 +46,18 @@ add_action('after_setup_theme', 'dark_blue_setup');
  * Enqueue scripts and styles
  */
 function dark_blue_scripts() {
-    // Enqueue theme stylesheet
-    wp_enqueue_style('dark-blue-style', get_stylesheet_uri(), array(), DARK_BLUE_VERSION);
+    // Swiper CSS
+    wp_enqueue_style('swiper-css', 'https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css', array(), '8.0.0');
     
+    // Theme main stylesheet
+    wp_enqueue_style('dark-blue-style', get_stylesheet_uri(), array(), '1.0.0');
+    
+    // Swiper JS
+    wp_enqueue_script('swiper-js', 'https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js', array(), '8.0.0', true);
+    
+    // Custom slider initialization
+    wp_enqueue_script('dark-blue-slider', get_template_directory_uri() . '/js/slider.js', array('swiper-js'), '1.0.0', true);
+
     // Enqueue Font Awesome
     wp_enqueue_style('font-awesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css', array(), '5.15.4');
 
