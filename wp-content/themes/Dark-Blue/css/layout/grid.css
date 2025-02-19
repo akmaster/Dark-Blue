@@ -1,0 +1,179 @@
+/**
+ * Dark Blue Theme - Grid
+ * Dosya Yolu: wp-content/themes/Dark-Blue/css/layout/grid.css
+ * Bağımlılıklar: variables.css
+ * Açıklama: Sayfa düzeni ve grid sistemini tanımlar
+ */
+
+/* Container */
+.container {
+    width: 100%;
+    max-width: var(--container-lg);
+    margin: 0 auto;
+    padding: 0 var(--spacing-md);
+}
+
+.container-sm {
+    max-width: var(--container-sm);
+}
+
+.container-md {
+    max-width: var(--container-md);
+}
+
+/* Grid Sistemi */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 calc(-1 * var(--spacing-md));
+}
+
+/* Grid Kolonları */
+.col {
+    flex: 1 0 0%;
+    padding: 0 var(--spacing-md);
+}
+
+.col-auto {
+    flex: 0 0 auto;
+    width: auto;
+}
+
+/* 12'li Grid Sistemi */
+.col-1 { flex: 0 0 auto; width: 8.333333%; }
+.col-2 { flex: 0 0 auto; width: 16.666667%; }
+.col-3 { flex: 0 0 auto; width: 25%; }
+.col-4 { flex: 0 0 auto; width: 33.333333%; }
+.col-5 { flex: 0 0 auto; width: 41.666667%; }
+.col-6 { flex: 0 0 auto; width: 50%; }
+.col-7 { flex: 0 0 auto; width: 58.333333%; }
+.col-8 { flex: 0 0 auto; width: 66.666667%; }
+.col-9 { flex: 0 0 auto; width: 75%; }
+.col-10 { flex: 0 0 auto; width: 83.333333%; }
+.col-11 { flex: 0 0 auto; width: 91.666667%; }
+.col-12 { flex: 0 0 auto; width: 100%; }
+
+/* Offset */
+.offset-1 { margin-left: 8.333333%; }
+.offset-2 { margin-left: 16.666667%; }
+.offset-3 { margin-left: 25%; }
+.offset-4 { margin-left: 33.333333%; }
+.offset-5 { margin-left: 41.666667%; }
+.offset-6 { margin-left: 50%; }
+.offset-7 { margin-left: 58.333333%; }
+.offset-8 { margin-left: 66.666667%; }
+.offset-9 { margin-left: 75%; }
+.offset-10 { margin-left: 83.333333%; }
+.offset-11 { margin-left: 91.666667%; }
+
+/* Sıralama */
+.order-first { order: -1; }
+.order-last { order: 13; }
+.order-0 { order: 0; }
+.order-1 { order: 1; }
+.order-2 { order: 2; }
+.order-3 { order: 3; }
+.order-4 { order: 4; }
+.order-5 { order: 5; }
+.order-6 { order: 6; }
+.order-7 { order: 7; }
+.order-8 { order: 8; }
+.order-9 { order: 9; }
+.order-10 { order: 10; }
+.order-11 { order: 11; }
+.order-12 { order: 12; }
+
+/* Hizalama */
+.justify-content-start { justify-content: flex-start; }
+.justify-content-end { justify-content: flex-end; }
+.justify-content-center { justify-content: center; }
+.justify-content-between { justify-content: space-between; }
+.justify-content-around { justify-content: space-around; }
+.justify-content-evenly { justify-content: space-evenly; }
+
+.align-items-start { align-items: flex-start; }
+.align-items-end { align-items: flex-end; }
+.align-items-center { align-items: center; }
+.align-items-baseline { align-items: baseline; }
+.align-items-stretch { align-items: stretch; }
+
+/* Boşluklar */
+.g-0 { margin: 0; }
+.g-0 > .col,
+.g-0 > [class*="col-"] {
+    padding: 0;
+}
+
+.g-1 { margin: 0 calc(-0.25 * var(--spacing-md)); }
+.g-1 > .col,
+.g-1 > [class*="col-"] {
+    padding: 0 calc(0.25 * var(--spacing-md));
+}
+
+.g-2 { margin: 0 calc(-0.5 * var(--spacing-md)); }
+.g-2 > .col,
+.g-2 > [class*="col-"] {
+    padding: 0 calc(0.5 * var(--spacing-md));
+}
+
+.g-3 { margin: 0 calc(-1 * var(--spacing-md)); }
+.g-3 > .col,
+.g-3 > [class*="col-"] {
+    padding: 0 var(--spacing-md);
+}
+
+.g-4 { margin: 0 calc(-1.5 * var(--spacing-md)); }
+.g-4 > .col,
+.g-4 > [class*="col-"] {
+    padding: 0 calc(1.5 * var(--spacing-md));
+}
+
+/* Responsive Breakpoint'ler */
+@media (min-width: 576px) {
+    .container-sm { max-width: 540px; }
+}
+
+@media (min-width: 768px) {
+    .container-md { max-width: 720px; }
+}
+
+@media (min-width: 992px) {
+    .container-lg { max-width: 960px; }
+}
+
+@media (min-width: 1200px) {
+    .container { max-width: 1140px; }
+}
+
+@media (min-width: 1400px) {
+    .container { max-width: 1320px; }
+}
+
+/* Responsive Grid */
+@media (max-width: 768px) {
+    .row {
+        margin: 0 calc(-0.5 * var(--spacing-md));
+    }
+
+    .col,
+    [class*="col-"] {
+        padding: 0 calc(0.5 * var(--spacing-md));
+    }
+
+    .col-md-12 {
+        flex: 0 0 auto;
+        width: 100%;
+    }
+
+    .offset-md-0 {
+        margin-left: 0;
+    }
+
+    .order-md-first {
+        order: -1;
+    }
+
+    .order-md-last {
+        order: 13;
+    }
+} 

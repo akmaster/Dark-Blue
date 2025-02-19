@@ -1,0 +1,154 @@
+/**
+ * Dark Blue Theme - Content Uniqueifier Module
+ * Dosya Yolu: wp-content/themes/Dark-Blue/js/modules/content-uniqueifier.js
+ * Bağımlılıklar: Google Cloud API
+ * Açıklama: Makale içeriğini benzersizleştirmek için AI kullanır
+ */
+
+class DarkBlueContentUniqueifier {
+    constructor() {
+        this.apiKey = darkBlueSettings.geminiApiKey;
+        this.apiEndpoint = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
+        this.editor = null;
+        this.init();
+    }
+
+    init() {
+        // TinyMCE editörünü bul
+        if (typeof tinymce !== 'undefined') {
+            this.editor = tinymce.get('content');
+        }
+
+        if (this.editor) {
+            this.addToolbarButton();
+            this.bindEvents();
+        }
+    }
+
+    addToolbarButton() {
+        // Editör araç çubuğuna düğme ekle
+        this.editor.addButton('uniqueify', {
+            text: 'İçeriği Benzersizleştir',
+            icon: 'refresh',
+            onclick: () => this.handleUniqueifyClick()
+        });
+    }
+
+    bindEvents() {
+        // Düğme tıklama olayını dinle
+        document.querySelector('#uniqueify-content').addEventListener('click', () => this.handleUniqueifyClick());
+    }
+
+    async handleUniqueifyClick() {
+        try {
+            // Mevcut içeriği al
+            const content = this.editor.getContent();
+            
+            // İçerik boşsa uyarı ver
+            if (!content.trim()) {
+                this.showNotification('Lütfen önce içerik ekleyin.', 'error');
+                return;
+            }
+
+            // İşlem başladı bildirimi
+            this.showNotification('İçerik benzersizleştiriliyor...', 'info');
+
+            // AI'dan benzersiz içerik iste
+            const uniqueContent = await this.getUniqueContent(content);
+
+            // Editörü güncelle
+            this.editor.setContent(uniqueContent);
+
+            // Başarı bildirimi
+            this.showNotification('İçerik başarıyla benzersizleştirildi!', 'success');
+
+        } catch (error) {
+            console.error('Benzersizleştirme hatası:', error);
+            this.showNotification('İçerik benzersizleştirilemedi. Lütfen tekrar deneyin.', 'error');
+        }
+    }
+
+    async getUniqueContent(content) {
+        try {
+            // API isteği için prompt hazırla
+            const prompt = `
+                Lütfen aşağıdaki içeriği, ana fikri ve bilgileri koruyarak benzersiz bir şekilde yeniden yaz.
+                Orijinal içeriğin SEO değerini koru veya artır.
+                Doğal ve akıcı bir dil kullan.
+                HTML etiketlerini koru.
+                Orijinal içerik:
+                ${content}
+            `;
+
+            // API isteği gönder
+            const response = await fetch(`${this.apiEndpoint}?key=${this.apiKey}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    contents: [{
+                        parts: [{
+                            text: prompt
+                        }]
+                    }]
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error('API yanıt vermedi');
+            }
+
+            const data = await response.json();
+            return data.candidates[0].content.parts[0].text;
+
+        } catch (error) {
+            console.error('API hatası:', error);
+            throw error;
+        }
+    }
+
+    showNotification(message, type = 'info') {
+        // WordPress admin bildirimlerini kullan
+        const notice = document.createElement('div');
+        notice.className = `notice notice-${type} is-dismissible`;
+        notice.innerHTML = `<p>${message}</p>`;
+
+        // Bildirimi sayfaya ekle
+        const headerEnd = document.querySelector('.wp-header-end');
+        if (headerEnd) {
+            headerEnd.parentNode.insertBefore(notice, headerEnd);
+        }
+
+        // Otomatik kapat
+        setTimeout(() => {
+            notice.remove();
+        }, 5000);
+    }
+
+    // İçeriğin benzersizlik oranını kontrol et
+    async checkUniqueness(content) {
+        try {
+            // Burada bir plagiarism checking API'si kullanılabilir
+            // Şimdilik basit bir kontrol yapıyoruz
+            const words = content.split(/\s+/).length;
+            const sentences = content.split(/[.!?]+/).length;
+            
+            return {
+                wordCount: words,
+                sentenceCount: sentences,
+                uniquenessScore: Math.random() * 100 // Gerçek bir API ile değiştirilmeli
+            };
+        } catch (error) {
+            console.error('Benzersizlik kontrolü hatası:', error);
+            throw error;
+        }
+    }
+}
+
+// WordPress admin panelinde başlat
+if (typeof window.wp !== 'undefined') {
+    document.addEventListener('DOMContentLoaded', () => {
+        window.darkBlueContentUniqueifier = new DarkBlueContentUniqueifier();
+    });
+} 

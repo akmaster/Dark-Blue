@@ -1,0 +1,234 @@
+/**
+ * Dark Blue Theme - Posts
+ * Dosya Yolu: wp-content/themes/Dark-Blue/css/modules/posts.css
+ * Bağımlılıklar: variables.css
+ * Açıklama: Blog yazıları ve haber kartlarının stillerini tanımlar
+ */
+
+/* Haber Kartı Container */
+.posts-grid {
+    max-width: var(--container-md);
+    margin: 0 auto;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--spacing-xl);
+    padding: var(--spacing-xl) 0;
+}
+
+/* Haber Kartı */
+.post-card {
+    background: var(--secondary-blue);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+    position: relative;
+}
+
+.post-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Kart Görseli */
+.post-card-image {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.post-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-normal);
+}
+
+.post-card:hover .post-card-image img {
+    transform: scale(1.05);
+}
+
+/* Kategori Etiketi */
+.post-card .category-tag {
+    position: absolute;
+    top: var(--spacing-sm);
+    left: var(--spacing-sm);
+    background: var(--primary-red);
+    color: var(--text-light);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: 4px;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    z-index: 1;
+}
+
+/* Kart İçeriği */
+.post-card-content {
+    padding: var(--spacing-md);
+}
+
+.post-card-title {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--spacing-sm);
+    line-height: 1.3;
+}
+
+.post-card-title a {
+    color: var(--text-light);
+    text-decoration: none;
+    transition: color var(--transition-normal);
+}
+
+.post-card-title a:hover {
+    color: var(--accent-gold);
+}
+
+.post-card-excerpt {
+    color: var(--text-gray);
+    font-size: var(--font-size-sm);
+    line-height: 1.5;
+    margin-bottom: var(--spacing-md);
+}
+
+/* Meta Bilgileri */
+.post-card-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    font-size: var(--font-size-xs);
+    color: var(--text-gray);
+}
+
+.post-card-date,
+.post-card-author {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+}
+
+.post-card-meta i {
+    color: var(--accent-gold);
+    font-size: var(--font-size-base);
+}
+
+/* Öne Çıkan Yazı */
+.featured-post {
+    grid-column: 1 / -1;
+}
+
+.featured-post .post-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+}
+
+.featured-post .post-card-image {
+    height: 100%;
+}
+
+.featured-post .post-card-content {
+    padding: var(--spacing-xl);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.featured-post .post-card-title {
+    font-size: var(--font-size-3xl);
+}
+
+.featured-post .post-card-excerpt {
+    font-size: var(--font-size-base);
+}
+
+/* Tek Yazı Sayfası */
+.single-post {
+    max-width: var(--container-md);
+    margin: 0 auto;
+    padding: var(--spacing-xl);
+}
+
+.post-header {
+    margin-bottom: var(--spacing-xl);
+    text-align: center;
+}
+
+.post-title {
+    font-size: var(--font-size-4xl);
+    margin-bottom: var(--spacing-md);
+}
+
+.post-meta {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-lg);
+    color: var(--text-gray);
+    margin-bottom: var(--spacing-xl);
+}
+
+.post-featured-image {
+    margin-bottom: var(--spacing-xl);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.post-featured-image img {
+    width: 100%;
+    height: auto;
+}
+
+.post-content {
+    font-size: var(--font-size-lg);
+    line-height: 1.8;
+}
+
+.post-content p {
+    margin-bottom: var(--spacing-lg);
+}
+
+.post-content h2,
+.post-content h3 {
+    margin: var(--spacing-xl) 0 var(--spacing-md);
+    color: var(--accent-gold);
+}
+
+/* Responsive Tasarım */
+@media (max-width: 768px) {
+    .grid-container {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-lg);
+        padding: var(--spacing-lg) var(--spacing-md);
+    }
+
+    .featured-post .post-card {
+        grid-template-columns: 1fr;
+    }
+
+    .featured-post .post-card-image {
+        height: 200px;
+    }
+
+    .featured-post .post-card-content {
+        padding: var(--spacing-md);
+    }
+
+    .featured-post .post-card-title {
+        font-size: var(--font-size-2xl);
+    }
+
+    .post-title {
+        font-size: var(--font-size-3xl);
+    }
+
+    .post-meta {
+        flex-direction: column;
+        align-items: center;
+        gap: var(--spacing-sm);
+    }
+} 

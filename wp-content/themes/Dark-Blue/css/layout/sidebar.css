@@ -1,0 +1,191 @@
+/**
+ * Dark Blue Theme - Sidebar
+ * Dosya Yolu: wp-content/themes/Dark-Blue/css/layout/sidebar.css
+ * Bağımlılıklar: variables.css
+ * Açıklama: Kenar çubuğu düzenini tanımlar
+ */
+
+/* Sidebar Container */
+.sidebar {
+    width: 100%;
+    max-width: 360px;
+}
+
+/* Sticky Sidebar */
+.sidebar-sticky {
+    position: sticky;
+    top: calc(var(--spacing-xl) + 80px);
+}
+
+/* Sidebar Widget'ları */
+.sidebar .widget {
+    background: var(--secondary-blue);
+    border-radius: 8px;
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+    box-shadow: var(--shadow-md);
+}
+
+.sidebar .widget-title {
+    color: var(--accent-gold);
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 2px solid var(--primary-red);
+}
+
+/* Yazar Widget'ı */
+.widget-author {
+    text-align: center;
+}
+
+.author-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin: 0 auto var(--spacing-md);
+    overflow: hidden;
+    border: 3px solid var(--accent-gold);
+}
+
+.author-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.author-name {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+    color: var(--text-light);
+    margin-bottom: var(--spacing-xs);
+}
+
+.author-bio {
+    color: var(--text-gray);
+    font-size: var(--font-size-sm);
+    line-height: 1.6;
+    margin-bottom: var(--spacing-md);
+}
+
+.author-social {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-sm);
+}
+
+/* Popüler Yazılar Widget'ı */
+.widget-popular-posts .post-item {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.widget-popular-posts .post-item:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.post-item-thumbnail {
+    width: 80px;
+    height: 80px;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.post-item-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-normal);
+}
+
+.post-item:hover .post-item-thumbnail img {
+    transform: scale(1.05);
+}
+
+.post-item-content {
+    flex: 1;
+}
+
+.post-item-title {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    margin-bottom: var(--spacing-xs);
+}
+
+.post-item-title a {
+    color: var(--text-light);
+    text-decoration: none;
+    transition: color var(--transition-normal);
+}
+
+.post-item-title a:hover {
+    color: var(--accent-gold);
+}
+
+.post-item-meta {
+    color: var(--text-gray);
+    font-size: var(--font-size-xs);
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+/* Reklam Widget'ı */
+.widget-advertisement {
+    text-align: center;
+}
+
+.ad-placeholder {
+    background: var(--primary-dark);
+    padding: var(--spacing-lg);
+    border-radius: 4px;
+    color: var(--text-gray);
+    font-size: var(--font-size-sm);
+}
+
+/* Responsive Tasarım */
+@media (max-width: 992px) {
+    .sidebar {
+        max-width: 100%;
+        margin-top: var(--spacing-xl);
+    }
+
+    .sidebar-sticky {
+        position: static;
+    }
+
+    .widget-popular-posts {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-lg);
+    }
+
+    .widget-popular-posts .post-item {
+        margin: 0;
+        padding: 0;
+        border: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .widget-popular-posts {
+        grid-template-columns: 1fr;
+    }
+
+    .widget-popular-posts .post-item {
+        margin-bottom: var(--spacing-md);
+        padding-bottom: var(--spacing-md);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .widget-popular-posts .post-item:last-child {
+        margin-bottom: 0;
+        padding-bottom: 0;
+        border-bottom: none;
+    }
+} 

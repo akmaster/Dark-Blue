@@ -1,0 +1,14 @@
+/* Dark Blue Theme - Admin Styles
+ * Dosya Yolu: wp-content/themes/Dark-Blue/assets/css/admin.css
+ * Bağımlılıklar: WordPress Admin
+ * Açıklama: WordPress admin panel özelleştirmeleri
+ */
+
+.dark-blue-admin-page ::-webkit-scrollbar-thumb {
+    background: #4b5563;
+    border-radius: 4px;
+}
+
+.dark-blue-admin-page ::-webkit-scrollbar-thumb:hover {
+    background: #374151;
+} 

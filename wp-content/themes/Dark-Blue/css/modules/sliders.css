@@ -1,0 +1,194 @@
+/**
+ * Dark Blue Theme - Sliders
+ * Dosya Yolu: wp-content/themes/Dark-Blue/css/modules/sliders.css
+ * Bağımlılıklar: variables.css
+ * Açıklama: Ana slider ve diğer carousel bileşenlerinin stillerini tanımlar
+ */
+
+/* Ana Slider */
+.main-slider {
+    max-width: var(--container-md);
+    margin: 0 auto var(--spacing-xxl);
+    position: relative;
+}
+
+.swiper.main-swiper {
+    width: 100%;
+    height: 500px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow-xl);
+}
+
+/* Slider Slaytları */
+.main-swiper .swiper-slide {
+    position: relative;
+    overflow: hidden;
+}
+
+.main-swiper .slider-image {
+    width: 100%;
+    height: 100%;
+}
+
+.main-swiper .slider-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+}
+
+.main-swiper .swiper-slide:hover .slider-image img {
+    transform: scale(1.05);
+}
+
+/* Slider İçeriği */
+.main-swiper .slider-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.7) 0%,
+        rgba(0,0,0,0.3) 30%,
+        rgba(0,0,0,0.3) 70%,
+        rgba(0,0,0,0.7) 100%
+    );
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-xl);
+    text-align: center;
+    transition: background var(--transition-normal);
+}
+
+.main-swiper .swiper-slide:hover .slider-content {
+    background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.8) 0%,
+        rgba(0,0,0,0.4) 30%,
+        rgba(0,0,0,0.4) 70%,
+        rgba(0,0,0,0.8) 100%
+    );
+}
+
+/* Slider Başlığı */
+.main-swiper .slider-content h2 {
+    margin: 0;
+    font-size: var(--font-size-4xl);
+    font-weight: var(--font-weight-bold);
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    max-width: 800px;
+}
+
+.main-swiper .slider-content h2 a {
+    color: var(--text-light);
+    text-decoration: none;
+    transition: color var(--transition-normal);
+}
+
+.main-swiper .slider-content h2 a:hover {
+    color: var(--accent-gold);
+}
+
+/* Slider Özeti */
+.main-swiper .slider-excerpt {
+    margin-top: var(--spacing-md);
+    font-size: var(--font-size-lg);
+    color: var(--text-gray);
+    max-width: 600px;
+    display: none;
+}
+
+.main-swiper .swiper-slide:hover .slider-excerpt {
+    display: block;
+    animation: fadeIn var(--transition-normal) ease-out;
+}
+
+/* Slider Navigasyon */
+.main-swiper .swiper-button-next,
+.main-swiper .swiper-button-prev {
+    color: var(--text-light);
+    background: rgba(0, 0, 0, 0.5);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    transition: all var(--transition-normal);
+}
+
+.main-swiper .swiper-button-next:hover,
+.main-swiper .swiper-button-prev:hover {
+    background: var(--primary-red);
+    transform: scale(1.1);
+}
+
+.main-swiper .swiper-button-next::after,
+.main-swiper .swiper-button-prev::after {
+    font-size: var(--font-size-lg);
+}
+
+/* Slider Pagination */
+.main-swiper .swiper-pagination-bullet {
+    width: 10px;
+    height: 10px;
+    background: var(--text-light);
+    opacity: 0.5;
+    transition: all var(--transition-normal);
+}
+
+.main-swiper .swiper-pagination-bullet-active {
+    background: var(--accent-gold);
+    opacity: 1;
+    width: 20px;
+    border-radius: 5px;
+}
+
+/* Kategori Etiketi */
+.main-swiper .category-tag {
+    position: absolute;
+    top: var(--spacing-md);
+    left: var(--spacing-md);
+    background: var(--primary-red);
+    color: var(--text-light);
+    padding: var(--spacing-xs) var(--spacing-md);
+    border-radius: 4px;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    z-index: 1;
+}
+
+/* Responsive Tasarım */
+@media (max-width: 768px) {
+    .swiper.main-swiper {
+        height: 400px;
+    }
+
+    .main-swiper .slider-content h2 {
+        font-size: var(--font-size-2xl);
+    }
+
+    .main-swiper .slider-excerpt {
+        font-size: var(--font-size-base);
+    }
+
+    .main-swiper .swiper-button-next,
+    .main-swiper .swiper-button-prev {
+        display: none;
+    }
+}
+
+/* Animasyonlar */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+} 

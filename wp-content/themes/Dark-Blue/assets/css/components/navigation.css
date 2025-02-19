@@ -1,0 +1,143 @@
+/**
+ * Dark Blue Theme - Navigation
+ * Dosya Yolu: wp-content/themes/Dark-Blue/css/components/navigation.css
+ * Bağımlılıklar: variables.css, reset.css
+ * Açıklama: Ana menü ve navigasyon stillerini tanımlar
+ */
+
+/* Ana Navigasyon */
+.main-navigation {
+    display: flex;
+    align-items: center;
+}
+
+.main-navigation ul {
+    display: flex;
+    gap: var(--spacing-lg);
+}
+
+.main-navigation li {
+    position: relative;
+}
+
+.main-navigation a {
+    color: var(--text-light);
+    text-decoration: none;
+    font-weight: var(--font-weight-medium);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: 4px;
+    transition: all var(--transition-normal);
+}
+
+.main-navigation a:hover {
+    background-color: var(--primary-red);
+    color: var(--text-light);
+}
+
+/* Alt Menü */
+.main-navigation .sub-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: var(--primary-dark);
+    min-width: 200px;
+    padding: var(--spacing-sm);
+    border-radius: 4px;
+    box-shadow: var(--shadow-lg);
+    z-index: var(--z-index-dropdown);
+}
+
+.main-navigation li:hover > .sub-menu {
+    display: block;
+}
+
+.main-navigation .sub-menu li {
+    margin: 0;
+}
+
+.main-navigation .sub-menu a {
+    padding: var(--spacing-sm) var(--spacing-md);
+    display: block;
+    white-space: nowrap;
+}
+
+/* Mobil Menü Düğmesi */
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--text-light);
+    font-size: var(--font-size-xl);
+    cursor: pointer;
+    padding: var(--spacing-sm);
+}
+
+.menu-toggle .icon {
+    width: 24px;
+    height: 24px;
+}
+
+/* Aktif Menü Öğesi */
+.main-navigation .current-menu-item > a,
+.main-navigation .current-menu-ancestor > a {
+    background-color: var(--secondary-blue);
+    color: var(--accent-gold);
+}
+
+/* Responsive Tasarım */
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: block;
+    }
+
+    .main-navigation ul {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--primary-dark);
+        flex-direction: column;
+        padding: var(--spacing-md);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .main-navigation.active ul {
+        display: flex;
+    }
+
+    .main-navigation .sub-menu {
+        position: static;
+        background: transparent;
+        box-shadow: none;
+        padding-left: var(--spacing-lg);
+    }
+
+    .main-navigation li {
+        width: 100%;
+    }
+
+    .main-navigation a {
+        padding: var(--spacing-sm);
+        display: block;
+        width: 100%;
+        text-align: left;
+    }
+}
+
+/* Animasyonlar */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.main-navigation .sub-menu {
+    animation: slideDown var(--transition-normal) ease-out;
+} 

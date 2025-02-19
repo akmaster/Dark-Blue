@@ -1,0 +1,80 @@
+/**
+ * Dark Blue Theme - Variables
+ * Dosya Yolu: wp-content/themes/Dark-Blue/css/base/variables.css
+ * Bağımlılıklar: Yok
+ * Açıklama: Tema genelinde kullanılan değişkenleri tanımlar
+ */
+
+:root {
+    /* Ana Renkler */
+    --primary-dark: #1A2B3C;    /* Koyu Lacivert - Güven ve Profesyonellik */
+    --primary-red: #C41E3A;     /* Bordo Kırmızı - Haber ve Dikkat */
+    --secondary-blue: #2C4356;  /* Orta Lacivert - Kurumsal */
+    
+    /* Aksan Renkleri */
+    --accent-gold: #D4AF37;     /* Altın - Premium ve Kalite */
+    --accent-silver: #C0C0C0;   /* Gümüş - Profesyonellik */
+    
+    /* Metin Renkleri */
+    --text-light: #FFFFFF;
+    --text-gray: #E5E5E5;
+    --text-dark: #333333;
+    
+    /* Gradyanlar */
+    --gradient-header: linear-gradient(45deg, var(--primary-dark), var(--secondary-blue));
+    --gradient-accent: linear-gradient(135deg, var(--primary-red), var(--accent-gold));
+    
+    /* Kategori Renkleri */
+    --category-politics: #8B0000;    /* Koyu Kırmızı - Siyaset */
+    --category-economy: #006400;     /* Koyu Yeşil - Ekonomi */
+    --category-sports: #00008B;      /* Koyu Mavi - Spor */
+    --category-technology: #4B0082;  /* Mor - Teknoloji */
+
+    /* Boşluk ve Kenar Boşlukları */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-xxl: 3rem;
+
+    /* Container Genişlikleri */
+    --container-sm: 600px;
+    --container-md: 900px;
+    --container-lg: 1200px;
+
+    /* Font Boyutları */
+    --font-size-xs: 0.75rem;
+    --font-size-sm: 0.875rem;
+    --font-size-base: 1rem;
+    --font-size-lg: 1.125rem;
+    --font-size-xl: 1.25rem;
+    --font-size-2xl: 1.5rem;
+    --font-size-3xl: 1.875rem;
+    --font-size-4xl: 2.25rem;
+
+    /* Font Ağırlıkları */
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+
+    /* Gölgeler */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.2);
+    --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.3);
+
+    /* Geçiş Süreleri */
+    --transition-fast: 150ms;
+    --transition-normal: 300ms;
+    --transition-slow: 500ms;
+
+    /* Z-index Katmanları */
+    --z-index-dropdown: 1000;
+    --z-index-sticky: 1020;
+    --z-index-fixed: 1030;
+    --z-index-modal: 1040;
+    --z-index-popover: 1050;
+    --z-index-tooltip: 1060;
+} 
