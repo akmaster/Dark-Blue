@@ -332,11 +332,6 @@ function dark_blue_add_breaking_news_settings($wp_customize) {
 }
 add_action('customize_register', 'dark_blue_add_breaking_news_settings');
 
-// Checkbox sanitize fonksiyonu
-function dark_blue_sanitize_checkbox($checked) {
-    return ((isset($checked) && true == $checked) ? true : false);
-}
-
 /**
  * Son Dakika Meta Box
  */
@@ -584,4 +579,11 @@ function dark_blue_breaking_news_page() {
         }
     </style>
     <?php
+}
+
+/**
+ * Checkbox değerlerini temizleme
+ */
+function dark_blue_sanitize_checkbox($checked) {
+    return ((isset($checked) && true == $checked) ? true : false);
 } 

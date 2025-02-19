@@ -16,14 +16,12 @@
     <!-- Header Top Bar -->
     <div class="header-top">
         <div class="header-top-container">
+            <?php if (get_theme_mod('show_date', true)) : ?>
             <div class="current-date">
                 <i class="far fa-calendar-alt"></i>
                 <?php echo date_i18n('l, j F Y'); ?>
             </div>
-            <div class="weather-info">
-                <i class="fas fa-cloud-sun"></i>
-                <span>İstanbul: 22°C</span>
-            </div>
+            <?php endif; ?>
         </div>
     </div>
 

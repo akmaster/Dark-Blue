@@ -140,10 +140,13 @@ get_header(); ?>
 
                 <!-- Etiketler -->
                 <?php if (has_tag()) : ?>
-                    <div class="article-tags">
-                        <div class="tags-header">
-                            <i class="fas fa-tags"></i>
-                            <span><?php echo esc_html__('Etiketler', 'dark-blue'); ?></span>
+                    <div class="article-tags collapsed">
+                        <div class="tags-header" onclick="toggleTags()">
+                            <div class="tags-title">
+                                <i class="fas fa-tags"></i>
+                                <span><?php echo esc_html__('Etiketler', 'dark-blue'); ?></span>
+                            </div>
+                            <i class="fas fa-chevron-down tags-toggle"></i>
                         </div>
                         <div class="tags-container">
                             <?php
@@ -152,13 +155,19 @@ get_header(); ?>
                                 foreach ($tags as $tag) {
                                     echo '<a href="' . esc_url(get_tag_link($tag->term_id)) . '" class="tag-link" rel="tag">';
                                     echo '<span class="tag-name">' . esc_html($tag->name) . '</span>';
-                                    echo '<span class="tag-count">' . esc_html($tag->count) . '</span>';
                                     echo '</a>';
                                 }
                             }
                             ?>
                         </div>
                     </div>
+
+                    <script>
+                    function toggleTags() {
+                        const tagsSection = document.querySelector('.article-tags');
+                        tagsSection.classList.toggle('collapsed');
+                    }
+                    </script>
                 <?php endif; ?>
 
                 <!-- Paylaşım Butonları -->
