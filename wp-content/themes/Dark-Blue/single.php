@@ -141,8 +141,23 @@ get_header(); ?>
                 <!-- Etiketler -->
                 <?php if (has_tag()) : ?>
                     <div class="article-tags">
-                        <i class="fas fa-tags"></i>
-                        <?php the_tags('', ' '); ?>
+                        <div class="tags-header">
+                            <i class="fas fa-tags"></i>
+                            <span><?php echo esc_html__('Etiketler', 'dark-blue'); ?></span>
+                        </div>
+                        <div class="tags-container">
+                            <?php
+                            $tags = get_the_tags();
+                            if ($tags) {
+                                foreach ($tags as $tag) {
+                                    echo '<a href="' . esc_url(get_tag_link($tag->term_id)) . '" class="tag-link" rel="tag">';
+                                    echo '<span class="tag-name">' . esc_html($tag->name) . '</span>';
+                                    echo '<span class="tag-count">' . esc_html($tag->count) . '</span>';
+                                    echo '</a>';
+                                }
+                            }
+                            ?>
+                        </div>
                     </div>
                 <?php endif; ?>
 
