@@ -138,6 +138,8 @@ function dark_blue_settings_page() {
             update_option('dark_blue_social_facebook', esc_url_raw($_POST['social_facebook']));
             update_option('dark_blue_social_twitter', esc_url_raw($_POST['social_twitter']));
             update_option('dark_blue_social_instagram', esc_url_raw($_POST['social_instagram']));
+            set_theme_mod('show_date', isset($_POST['show_date']) ? true : false);
+            set_theme_mod('date_format', sanitize_text_field($_POST['date_format']));
             echo '<div class="notice notice-success"><p>Ayarlar başarıyla kaydedildi.</p></div>';
         }
     }
@@ -148,6 +150,8 @@ function dark_blue_settings_page() {
     $social_facebook = get_option('dark_blue_social_facebook', '');
     $social_twitter = get_option('dark_blue_social_twitter', '');
     $social_instagram = get_option('dark_blue_social_instagram', '');
+    $show_date = get_theme_mod('show_date', true);
+    $date_format = get_theme_mod('date_format', 'full'); // Varsayılan format: tam format
     ?>
     <div class="wrap dark-blue-admin-page">
         <h1><i class="dashicons dashicons-admin-customizer"></i> Dark Blue Tema Ayarları</h1>
@@ -164,6 +168,33 @@ function dark_blue_settings_page() {
             <div class="card">
                 <h2>Genel Ayarlar</h2>
                 <table class="form-table">
+                    <tr>
+                        <th scope="row">
+                            <label for="show_date">Tarih Gösterimi</label>
+                        </th>
+                        <td>
+                            <label>
+                                <input type="checkbox" id="show_date" name="show_date" <?php checked($show_date, true); ?>>
+                                Header'da tarih göster
+                            </label>
+                            <p class="description">Header üst kısmında tarih gösterimini açıp kapatabilirsiniz.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">
+                            <label for="date_format">Tarih Formatı</label>
+                        </th>
+                        <td>
+                            <select name="date_format" id="date_format">
+                                <option value="full" <?php selected($date_format, 'full'); ?>>Tam Format (Örn: Çarşamba, 19 Şubat 2024)</option>
+                                <option value="medium" <?php selected($date_format, 'medium'); ?>>Orta Format (Örn: 19 Şubat 2024)</option>
+                                <option value="short" <?php selected($date_format, 'short'); ?>>Kısa Format (Örn: 19.02.2024)</option>
+                                <option value="day_month" <?php selected($date_format, 'day_month'); ?>>Gün ve Ay (Örn: 19 Şubat)</option>
+                                <option value="month_year" <?php selected($date_format, 'month_year'); ?>>Ay ve Yıl (Örn: Şubat 2024)</option>
+                            </select>
+                            <p class="description">Tarihin nasıl görüntüleneceğini seçin.</p>
+                        </td>
+                    </tr>
                     <tr>
                         <th scope="row">
                             <label for="header_text">Header Metni</label>

@@ -14,6 +14,26 @@ function dark_blue_customize_register($wp_customize) {
     $wp_customize->get_setting('blogname')->transport         = 'postMessage';
     $wp_customize->get_setting('blogdescription')->transport  = 'postMessage';
     
+    // Header Settings Section
+    $wp_customize->add_section('dark_blue_header_section', array(
+        'title'    => __('Header Ayarları', 'dark-blue'),
+        'priority' => 30,
+    ));
+
+    // Date Display Setting
+    $wp_customize->add_setting('show_date', array(
+        'default'           => true,
+        'sanitize_callback' => 'dark_blue_sanitize_checkbox',
+        'transport'         => 'refresh',
+    ));
+
+    $wp_customize->add_control('show_date', array(
+        'label'    => __('Tarih Göster', 'dark-blue'),
+        'section'  => 'dark_blue_header_section',
+        'type'     => 'checkbox',
+        'priority' => 10,
+    ));
+
     // Footer About Text
     $wp_customize->add_section('dark_blue_footer_section', array(
         'title'    => __('Footer Settings', 'dark-blue'),

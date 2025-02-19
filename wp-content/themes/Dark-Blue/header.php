@@ -16,10 +16,30 @@
     <!-- Header Top Bar -->
     <div class="header-top">
         <div class="header-top-container">
-            <?php if (get_theme_mod('show_date', true)) : ?>
+            <?php if (get_theme_mod('show_date', true)) : 
+                $date_format = get_theme_mod('date_format', 'full');
+                switch ($date_format) {
+                    case 'medium':
+                        $formatted_date = date_i18n('j F Y');
+                        break;
+                    case 'short':
+                        $formatted_date = date_i18n('d.m.Y');
+                        break;
+                    case 'day_month':
+                        $formatted_date = date_i18n('j F');
+                        break;
+                    case 'month_year':
+                        $formatted_date = date_i18n('F Y');
+                        break;
+                    case 'full':
+                    default:
+                        $formatted_date = date_i18n('l, j F Y');
+                        break;
+                }
+            ?>
             <div class="current-date">
                 <i class="far fa-calendar-alt"></i>
-                <?php echo date_i18n('l, j F Y'); ?>
+                <?php echo $formatted_date; ?>
             </div>
             <?php endif; ?>
         </div>
