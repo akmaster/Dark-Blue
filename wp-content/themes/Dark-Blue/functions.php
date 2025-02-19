@@ -140,6 +140,8 @@ function dark_blue_settings_page() {
             update_option('dark_blue_social_instagram', esc_url_raw($_POST['social_instagram']));
             set_theme_mod('show_date', isset($_POST['show_date']) ? true : false);
             set_theme_mod('date_format', sanitize_text_field($_POST['date_format']));
+            set_theme_mod('show_breaking_news', isset($_POST['show_breaking_news']) ? true : false);
+            set_theme_mod('breaking_news_title', sanitize_text_field($_POST['breaking_news_title']));
             echo '<div class="notice notice-success"><p>Ayarlar başarıyla kaydedildi.</p></div>';
         }
     }
@@ -151,13 +153,16 @@ function dark_blue_settings_page() {
     $social_twitter = get_option('dark_blue_social_twitter', '');
     $social_instagram = get_option('dark_blue_social_instagram', '');
     $show_date = get_theme_mod('show_date', true);
-    $date_format = get_theme_mod('date_format', 'full'); // Varsayılan format: tam format
+    $date_format = get_theme_mod('date_format', 'full');
+    $show_breaking_news = get_theme_mod('show_breaking_news', true);
+    $breaking_news_title = get_theme_mod('breaking_news_title', 'SON DAKİKA');
     ?>
     <div class="wrap dark-blue-admin-page">
         <h1><i class="dashicons dashicons-admin-customizer"></i> Dark Blue Tema Ayarları</h1>
         
         <div class="nav-tab-wrapper">
             <a href="#general" class="nav-tab nav-tab-active">Genel Ayarlar</a>
+            <a href="#breaking-news" class="nav-tab">Son Dakika</a>
             <a href="#social" class="nav-tab">Sosyal Medya</a>
             <a href="#advanced" class="nav-tab">Gelişmiş Ayarlar</a>
         </div>
@@ -211,6 +216,34 @@ function dark_blue_settings_page() {
                         <td>
                             <input type="text" id="footer_text" name="footer_text" 
                                    value="<?php echo esc_attr($footer_text); ?>" class="regular-text">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="card">
+                <h2>Son Dakika Ayarları</h2>
+                <table class="form-table">
+                    <tr>
+                        <th scope="row">
+                            <label for="show_breaking_news">Son Dakika Gösterimi</label>
+                        </th>
+                        <td>
+                            <label>
+                                <input type="checkbox" id="show_breaking_news" name="show_breaking_news" <?php checked($show_breaking_news, true); ?>>
+                                Son dakika bölümünü göster
+                            </label>
+                            <p class="description">Header altında son dakika haberlerinin gösterimini açıp kapatabilirsiniz.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">
+                            <label for="breaking_news_title">Son Dakika Başlığı</label>
+                        </th>
+                        <td>
+                            <input type="text" id="breaking_news_title" name="breaking_news_title" 
+                                   value="<?php echo esc_attr($breaking_news_title); ?>" class="regular-text">
+                            <p class="description">Son dakika bölümünde görünecek başlık metnini belirleyin.</p>
                         </td>
                     </tr>
                 </table>
