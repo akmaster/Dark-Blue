@@ -160,7 +160,39 @@ add_action('admin_menu', 'dark_blue_admin_menu');
  * Tema Ayarları Sayfası İçeriği
  */
 function dark_blue_settings_page() {
-    // Ayarları kaydet
+    // Tema ayarları sayfasına slider sekmesini ekle
+    $nav_tabs = array(
+        'general' => array(
+            'icon' => 'dashicons-admin-generic',
+            'title' => 'Genel Ayarlar'
+        ),
+        'header-footer' => array(
+            'icon' => 'dashicons-align-wide',
+            'title' => 'Header & Footer'
+        ),
+        'sliders' => array(
+            'icon' => 'dashicons-images-alt2',
+            'title' => 'Slider Ayarları'
+        ),
+        'social' => array(
+            'icon' => 'dashicons-share',
+            'title' => 'Sosyal Medya'
+        ),
+        'breaking-news' => array(
+            'icon' => 'dashicons-megaphone',
+            'title' => 'Son Dakika'
+        ),
+        'api' => array(
+            'icon' => 'dashicons-admin-plugins',
+            'title' => 'API Ayarları'
+        ),
+        'advanced' => array(
+            'icon' => 'dashicons-admin-tools',
+            'title' => 'Gelişmiş Ayarlar'
+        )
+    );
+
+    // Slider ayarlarını kaydet
     if (isset($_POST['dark_blue_save_settings'])) {
         if (check_admin_referer('dark_blue_settings_nonce')) {
             // Mevcut ayarları güncelle
@@ -169,6 +201,20 @@ function dark_blue_settings_page() {
             update_option('dark_blue_social_facebook', esc_url_raw($_POST['social_facebook']));
             update_option('dark_blue_social_twitter', esc_url_raw($_POST['social_twitter']));
             update_option('dark_blue_social_instagram', esc_url_raw($_POST['social_instagram']));
+            
+            // Ana Slider Ayarları
+            update_option('dark_blue_main_slider_auto', isset($_POST['main_slider_auto']) ? true : false);
+            update_option('dark_blue_main_slider_delay', absint($_POST['main_slider_delay']));
+            update_option('dark_blue_main_slider_effect', sanitize_text_field($_POST['main_slider_effect']));
+            update_option('dark_blue_main_slider_posts', absint($_POST['main_slider_posts']));
+            update_option('dark_blue_main_slider_categories', array_map('absint', (array)$_POST['main_slider_categories']));
+            
+            // Mini Slider Ayarları
+            update_option('dark_blue_mini_slider_auto', isset($_POST['mini_slider_auto']) ? true : false);
+            update_option('dark_blue_mini_slider_delay', absint($_POST['mini_slider_delay']));
+            update_option('dark_blue_mini_slider_effect', sanitize_text_field($_POST['mini_slider_effect']));
+            update_option('dark_blue_mini_slider_posts', absint($_POST['mini_slider_posts']));
+            update_option('dark_blue_mini_slider_categories', array_map('absint', (array)$_POST['mini_slider_categories']));
             
             // API Key güvenli bir şekilde kaydet
             if (isset($_POST['gemini_api_key'])) {
@@ -195,6 +241,205 @@ function dark_blue_settings_page() {
     $date_format = get_theme_mod('date_format', 'full');
     $show_breaking_news = get_theme_mod('show_breaking_news', true);
     $breaking_news_title = get_theme_mod('breaking_news_title', 'SON DAKİKA');
+
+    // Slider Ayarlarını Al
+    $main_slider_auto = get_option('dark_blue_main_slider_auto', true);
+    $main_slider_delay = get_option('dark_blue_main_slider_delay', 5000);
+    $main_slider_effect = get_option('dark_blue_main_slider_effect', 'fade');
+    $main_slider_posts = get_option('dark_blue_main_slider_posts', 5);
+    $main_slider_categories = get_option('dark_blue_main_slider_categories', array());
+
+    $mini_slider_auto = get_option('dark_blue_mini_slider_auto', true);
+    $mini_slider_delay = get_option('dark_blue_mini_slider_delay', 3000);
+    $mini_slider_effect = get_option('dark_blue_mini_slider_effect', 'slide');
+    $mini_slider_posts = get_option('dark_blue_mini_slider_posts', 8);
+    $mini_slider_categories = get_option('dark_blue_mini_slider_categories', array());
+
+    // Slider sekmesi içeriği
+    $slider_tab_content = '
+    <div class="tab-content" id="sliders">
+        <div class="settings-card">
+            <h2><span class="dashicons dashicons-images-alt2"></span> Ana Slider Ayarları</h2>
+            <div class="settings-card-content">
+                <div class="form-group">
+                    <label>Otomatik Geçiş</label>
+                    <div class="toggle-switch">
+                        <input type="checkbox" id="main_slider_auto" name="main_slider_auto" ' . checked($main_slider_auto, true, false) . '>
+                        <label for="main_slider_auto"></label>
+                    </div>
+                    <p class="description">Slaytların otomatik geçişini açıp kapatabilirsiniz.</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="main_slider_delay">Geçiş Süresi (ms)</label>
+                    <input type="number" id="main_slider_delay" name="main_slider_delay" 
+                           value="' . esc_attr($main_slider_delay) . '" class="small-text" min="1000" step="500">
+                    <p class="description">Slaytlar arası geçiş süresini milisaniye cinsinden belirleyin. (1000ms = 1 saniye)</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="main_slider_effect">Geçiş Efekti</label>
+                    <select name="main_slider_effect" id="main_slider_effect" class="regular-select">
+                        <option value="fade" ' . selected($main_slider_effect, 'fade', false) . '>Solma</option>
+                        <option value="slide" ' . selected($main_slider_effect, 'slide', false) . '>Kayma</option>
+                        <option value="cube" ' . selected($main_slider_effect, 'cube', false) . '>Küp</option>
+                        <option value="coverflow" ' . selected($main_slider_effect, 'coverflow', false) . '>Kapak Akışı</option>
+                    </select>
+                    <p class="description">Slaytlar arası geçiş efektini seçin.</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="main_slider_posts">Gösterilecek Yazı Sayısı</label>
+                    <input type="number" id="main_slider_posts" name="main_slider_posts" 
+                           value="' . esc_attr($main_slider_posts) . '" class="small-text" min="1" max="10">
+                    <p class="description">Ana sliderdaki maksimum yazı sayısını belirleyin.</p>
+                </div>
+
+                <div class="form-group">
+                    <label>Kategoriler</label>
+                    <div class="category-checkboxes">
+                        ' . dark_blue_get_category_checkboxes($main_slider_categories, 'main_slider_categories') . '
+                    </div>
+                    <p class="description">Sliderdaki yazıların hangi kategorilerden seçileceğini belirleyin.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="settings-card">
+            <h2><span class="dashicons dashicons-images-alt2"></span> Mini Slider Ayarları</h2>
+            <div class="settings-card-content">
+                <div class="form-group">
+                    <label>Otomatik Geçiş</label>
+                    <div class="toggle-switch">
+                        <input type="checkbox" id="mini_slider_auto" name="mini_slider_auto" ' . checked($mini_slider_auto, true, false) . '>
+                        <label for="mini_slider_auto"></label>
+                    </div>
+                    <p class="description">Slaytların otomatik geçişini açıp kapatabilirsiniz.</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="mini_slider_delay">Geçiş Süresi (ms)</label>
+                    <input type="number" id="mini_slider_delay" name="mini_slider_delay" 
+                           value="' . esc_attr($mini_slider_delay) . '" class="small-text" min="1000" step="500">
+                    <p class="description">Slaytlar arası geçiş süresini milisaniye cinsinden belirleyin. (1000ms = 1 saniye)</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="mini_slider_effect">Geçiş Efekti</label>
+                    <select name="mini_slider_effect" id="mini_slider_effect" class="regular-select">
+                        <option value="fade" ' . selected($mini_slider_effect, 'fade', false) . '>Solma</option>
+                        <option value="slide" ' . selected($mini_slider_effect, 'slide', false) . '>Kayma</option>
+                        <option value="cube" ' . selected($mini_slider_effect, 'cube', false) . '>Küp</option>
+                        <option value="coverflow" ' . selected($mini_slider_effect, 'coverflow', false) . '>Kapak Akışı</option>
+                    </select>
+                    <p class="description">Slaytlar arası geçiş efektini seçin.</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="mini_slider_posts">Gösterilecek Yazı Sayısı</label>
+                    <input type="number" id="mini_slider_posts" name="mini_slider_posts" 
+                           value="' . esc_attr($mini_slider_posts) . '" class="small-text" min="1" max="10">
+                    <p class="description">Mini sliderdaki maksimum yazı sayısını belirleyin.</p>
+                </div>
+
+                <div class="form-group">
+                    <label>Kategoriler</label>
+                    <div class="category-checkboxes">
+                        ' . dark_blue_get_category_checkboxes($mini_slider_categories, 'mini_slider_categories') . '
+                    </div>
+                    <p class="description">Sliderdaki yazıların hangi kategorilerden seçileceğini belirleyin.</p>
+                </div>
+            </div>
+        </div>
+    </div>';
+
+    // Kategori checkbox'larını oluşturan yardımcı fonksiyon
+    function dark_blue_get_category_checkboxes($selected_categories, $name) {
+        $categories = get_categories(array('hide_empty' => false));
+        $output = '<div class="category-grid">';
+        
+        foreach ($categories as $category) {
+            $checked = in_array($category->term_id, (array)$selected_categories) ? 'checked' : '';
+            $output .= '
+            <label class="category-checkbox">
+                <input type="checkbox" name="' . $name . '[]" value="' . $category->term_id . '" ' . $checked . '>
+                ' . $category->name . '
+                <span class="post-count">' . $category->count . '</span>
+            </label>';
+        }
+        
+        $output .= '</div>';
+        return $output;
+    }
+
+    // Slider ayarları için ek stiller
+    $slider_styles = '
+    <style>
+    .category-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 10px;
+        max-height: 200px;
+        overflow-y: auto;
+        padding: 10px;
+        background: #111827;
+        border: 1px solid #374151;
+        border-radius: 6px;
+    }
+
+    .category-checkbox {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px;
+        background: #1f2937;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .category-checkbox:hover {
+        background: #374151;
+    }
+
+    .category-checkbox input[type="checkbox"] {
+        accent-color: #3b82f6;
+    }
+
+    .post-count {
+        margin-left: auto;
+        background: #374151;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        color: #9ca3af;
+    }
+
+    .small-text {
+        width: 100px !important;
+        text-align: center;
+    }
+
+    /* Özel Scrollbar - Kategori Grid için */
+    .category-grid::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .category-grid::-webkit-scrollbar-track {
+        background: #1f2937;
+        border-radius: 4px;
+    }
+
+    .category-grid::-webkit-scrollbar-thumb {
+        background: #374151;
+        border-radius: 4px;
+    }
+
+    .category-grid::-webkit-scrollbar-thumb:hover {
+        background: #4b5563;
+    }
+    </style>';
+
     ?>
     <div class="wrap dark-blue-admin-page">
         <div class="dark-blue-header">
@@ -208,30 +453,14 @@ function dark_blue_settings_page() {
         <div class="dark-blue-admin-content">
             <div class="dark-blue-sidebar">
                 <nav class="dark-blue-nav">
-                    <a href="#general" class="nav-tab active" data-tab="general">
-                        <span class="dashicons dashicons-admin-generic"></span>
-                        Genel Ayarlar
-                    </a>
-                    <a href="#header-footer" class="nav-tab" data-tab="header-footer">
-                        <span class="dashicons dashicons-align-wide"></span>
-                        Header & Footer
-                    </a>
-                    <a href="#social" class="nav-tab" data-tab="social">
-                        <span class="dashicons dashicons-share"></span>
-                        Sosyal Medya
-                    </a>
-                    <a href="#breaking-news" class="nav-tab" data-tab="breaking-news">
-                        <span class="dashicons dashicons-megaphone"></span>
-                        Son Dakika
-                    </a>
-                    <a href="#api" class="nav-tab" data-tab="api">
-                        <span class="dashicons dashicons-admin-plugins"></span>
-                        API Ayarları
-                    </a>
-                    <a href="#advanced" class="nav-tab" data-tab="advanced">
-                        <span class="dashicons dashicons-admin-tools"></span>
-                        Gelişmiş Ayarlar
-                    </a>
+                    <?php
+                    foreach ($nav_tabs as $tab => $details) {
+                        echo '<a href="#' . $tab . '" class="nav-tab" data-tab="' . $tab . '">
+                            <span class="dashicons dashicons-' . $details['icon'] . '"></span>
+                            ' . $details['title'] . '
+                        </a>';
+                    }
+                    ?>
                 </nav>
             </div>
 
@@ -286,6 +515,10 @@ function dark_blue_settings_page() {
                                 </div>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="tab-content" id="sliders">
+                        <?php echo $slider_tab_content; ?>
                     </div>
 
                     <div class="tab-content" id="social">
